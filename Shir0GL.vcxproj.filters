@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Color">
+      <UniqueIdentifier>{98004b3f-0615-45fe-b9bb-87eb000491b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Color">
+      <UniqueIdentifier>{30e283cd-b427-42eb-ac66-fcc07298ca49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\WinAPI">
+      <UniqueIdentifier>{adae01b0-4acb-4442-990c-58cf6ceeffcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WinAPI">
+      <UniqueIdentifier>{73492dd4-4c78-4732-bc77-b0392f7d2e90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Matrix">
+      <UniqueIdentifier>{63a58cf2-9f32-4d93-9782-ca61f9dbdfd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Matrix">
+      <UniqueIdentifier>{8dc29d35-2970-4ed0-b17c-7903e56d1a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Vector">
+      <UniqueIdentifier>{e4b6f2bb-8e7d-40b1-8bbb-0a809efec8a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Vector">
+      <UniqueIdentifier>{e3d32de0-4134-485f-a054-e0f00b542c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{c303a388-1af3-4cfe-99f2-b8ce96894f8a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Color32.h">
+      <Filter>Header Files\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files\WinAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files\WinAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3f.h">
+      <Filter>Header Files\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="vec3f.h">
+      <Filter>Header Files\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="vec4f.h">
+      <Filter>Header Files\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="quat.h">
+      <Filter>Header Files\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="quat.cpp">
+      <Filter>Source Files\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="math.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Color32.cpp">
+      <Filter>Source Files\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Shir0GL.cpp">
+      <Filter>Source Files\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3f.cpp">
+      <Filter>Source Files\Matrix</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
