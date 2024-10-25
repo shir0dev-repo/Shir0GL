@@ -126,7 +126,12 @@ namespace shir0GL {
 	}
 
 	matrix3f matrix3f::operator*(const matrix3f& mat) const {
-
+		matrix3f m(*this);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				
+			}
+		}
 	}
 	matrix3f& matrix3f::operator*=(const matrix3f& mat) {
 
