@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Color32.h"
-#include "Color.h"
+#include "color32.h"
+#include "color.h"
 
 namespace shir0GL {
 	color32::color32(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {

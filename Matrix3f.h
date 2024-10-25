@@ -36,6 +36,8 @@ namespace shir0GL {
 		// Returns the address at the specified column and row.
 		float& operator() (const unsigned& column, const unsigned& row);
 		
+		vec3f operator*(const vec3f&) const;
+
 		matrix3f operator+(const matrix3f&) const;
 		matrix3f& operator+=(const matrix3f&);
 

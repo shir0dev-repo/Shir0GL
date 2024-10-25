@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Color.h"
-#include "Color32.h"
+#include "color.h"
+#include "color32.h"
 
 namespace shir0GL {
 	color::color(float r, float g, float b, float a) {

@@ -139,21 +139,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Color.h" />
-    <ClInclude Include="Color32.h" />
+    <ClInclude Include="color.h" />
+    <ClInclude Include="color32.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="quat.cpp" />
-    <ClInclude Include="Matrix3f.h" />
+    <ClInclude Include="matrix3f.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="quat.h" />
     <ClInclude Include="vec3f.h" />
-    <ClInclude Include="vec4f.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Color32.cpp" />
-    <ClCompile Include="Matrix3f.cpp" />
+    <ClCompile Include="matrix3f.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -161,6 +160,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Shir0GL.cpp" />
+    <ClCompile Include="vec3f.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

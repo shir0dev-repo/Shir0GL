@@ -42,10 +42,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Color32.h">
+    <ClInclude Include="color32.h">
       <Filter>Header Files\Color</Filter>
     </ClInclude>
-    <ClInclude Include="Color.h">
+    <ClInclude Include="color.h">
       <Filter>Header Files\Color</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
@@ -54,13 +54,10 @@
     <ClInclude Include="framework.h">
       <Filter>Header Files\WinAPI</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix3f.h">
+    <ClInclude Include="matrix3f.h">
       <Filter>Header Files\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="vec3f.h">
-      <Filter>Header Files\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="vec4f.h">
       <Filter>Header Files\Vector</Filter>
     </ClInclude>
     <ClInclude Include="quat.h">
@@ -86,8 +83,11 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files\WinAPI</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix3f.cpp">
+    <ClCompile Include="matrix3f.cpp">
       <Filter>Source Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="vec3f.cpp">
+      <Filter>Source Files\Vector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
