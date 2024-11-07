@@ -18,6 +18,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\color.h" />
+    <ClInclude Include="include\color32.h" />
+    <ClInclude Include="include\math.h" />
+    <ClInclude Include="include\matrix3f.h" />
+    <ClInclude Include="include\matrix4f.h" />
+    <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\quat.h" />
+    <ClInclude Include="include\vec3f.h" />
+    <ClInclude Include="include\vec4f.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\color.cpp" />
+    <ClCompile Include="src\color32.cpp" />
+    <ClCompile Include="src\matrix3f.cpp" />
+    <ClCompile Include="src\matrix4f.cpp" />
+    <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\quat.cpp" />
+    <ClCompile Include="src\sogl.cpp" />
+    <ClCompile Include="src\vec3f.cpp" />
+    <ClCompile Include="src\vec4f.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,30 +160,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="color.h" />
-    <ClInclude Include="color32.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="math.h" />
-    <ClInclude Include="quat.cpp" />
-    <ClInclude Include="matrix3f.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="quat.h" />
-    <ClInclude Include="vec3f.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Color32.cpp" />
-    <ClCompile Include="matrix3f.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Shir0GL.cpp" />
-    <ClCompile Include="vec3f.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

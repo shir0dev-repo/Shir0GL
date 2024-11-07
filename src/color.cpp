@@ -1,8 +1,19 @@
-#include "pch.h"
-#include "color.h"
-#include "color32.h"
+#include "../include/pch.h"
+#include "../include/color.h"
+#include "../include/color32.h"
 
 namespace shir0GL {
+#ifdef SOGL_EXPORT
+	color color::BLACK = color(0, 0, 0);
+	color color::RED = color(1, 0, 0);
+	color color::YELLOW = color(1, 1, 0);
+	color color::GREEN = color(0, 1, 0);
+	color color::CYAN = color(0, 1, 1);
+	color color::BLUE = color(0, 0, 1);
+	color color::MAGENTA = color(1, 0, 1);
+	color color::WHITE = color(1, 1, 1);
+#endif
+
 	color::color(float r, float g, float b, float a) {
 		this->r = r;
 		this->g = g;

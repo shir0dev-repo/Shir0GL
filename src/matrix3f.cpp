@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "Matrix3f.h"
-#include "vec3f.h"
+#include "../include/pch.h"
+#include "../include/Matrix3f.h"
+#include "../include/vec3f.h"
 
 namespace shir0GL {
 	matrix3f::matrix3f() {
@@ -34,12 +34,10 @@ namespace shir0GL {
 	}
 
 	float matrix3f::determinant() const {
-		float det = 0;
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-
-			}
-		}
+		float detA = m_values[0] * ((m_values[4] * m_values[8]) - (m_values[5] * m_values[7]));
+		float detB = m_values[1] * ((m_values[3] * m_values[8]) - (m_values[5] * m_values[6]));
+		float detC = m_values[2] * ((m_values[3] * m_values[7]) - (m_values[4] * m_values[6]));
+		return detA - detB + detC;
 	}
 	
 	matrix3f matrix3f::transposed() const {
@@ -61,10 +59,65 @@ namespace shir0GL {
 	}
 
 	matrix3f matrix3f::inverted() const {
+		matrix3f mat(*this);
+		mat.invert();
 
+		return mat;
 	}
-	void matrix3f::invert() {
 
+	void matrix3f::invert() {
+		float det = this->determinant();
+		if (det == 0) return;
+
+		matrix3f augmented = *this;
+		matrix3f inverse;
+
+		// row iterator
+		for (int i = 0; i < 3; i++) {
+			int pivotRow = i;
+
+			// column iterator
+			for (int j = i + 1; j < 3; j++) {
+				if (fabsf(augmented.m_values[to1D(i, j)]) > fabsf(augmented.m_values[to1D(i, pivotRow)])) {
+					pivotRow = j;
+				}
+			}
+
+			if (pivotRow != i) {
+				// column iterator
+				for (int k = 0; k < 3; k++) {
+					std::swap(augmented.m_values[k, i], augmented.m_values[to1D(k, pivotRow)]);
+					std::swap(inverse.m_values[k, i], inverse.m_values[to1D(k, pivotRow)]);
+
+				}
+			}
+
+			float pivotValue = augmented.m_values[to1D(i, i)];
+			if (pivotValue == 0) return;
+
+			float invPivotValue = 1.0f / pivotValue;
+
+			// column iterator
+			for (int k = 0; k < 3; k++) {
+				augmented.m_values[to1D(k, i)] *= invPivotValue;
+				inverse.m_values[to1D(k, i)] *= invPivotValue;
+			}
+
+
+			//row iterator
+			for (int j = 0; j < 3; j++) {
+				if (j == i) continue;
+				float factor = augmented.m_values[to1D(i, j)];
+
+				// column iterator
+				for (int k = 0; k < 3; k++) {
+					augmented.m_values[to1D(k, j)] -= factor * augmented.m_values[to1D(k, i)];
+					inverse.m_values[to1D(k, j)] -= factor * inverse.m_values[to1D(k, i)];
+				}
+			}
+		}
+
+		*this = inverse;
 	}
 
 	vec3f matrix3f::getColumn(const unsigned& col) const {
@@ -126,22 +179,34 @@ namespace shir0GL {
 	}
 
 	matrix3f matrix3f::operator*(const matrix3f& mat) const {
-		matrix3f m(*this);
+		matrix3f m;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				
+				float temp = 0;
+				for (int k = 0; k < 3; k++) {
+					temp += m_values[to1D(i, k)] * mat.m_values[to1D(k, j)];
+				}
+				m.m_values[to1D(i, j)] = temp;
 			}
 		}
+		return m;
 	}
 	matrix3f& matrix3f::operator*=(const matrix3f& mat) {
-
+		*this = *this * mat;
+		return *this;
 	}
 
 	matrix3f matrix3f::operator*(const float& scalar) const {
-	
+		matrix3f m(*this);
+		for (int i = 0; i < 9; i++) {
+			m.m_values[i] *= scalar;
+		}
+
+		return m;
 	}
 	matrix3f& matrix3f::operator*=(const float& scalar) {
-
+		*this = *this * scalar;
+		return *this;
 	}
 
 	bool matrix3f::operator==(const matrix3f& other) const {
@@ -157,11 +222,11 @@ namespace shir0GL {
 	}
 
 	float matrix3f::operator() (const unsigned& column, const unsigned& row) const {
-		float v = m_values[(column * 3) + row];
+		float v = m_values[to1D(column, row)];
 		return v;
 	}
 	float& matrix3f::operator() (const unsigned& column, const unsigned& row) {
-		return m_values[(column * 3) + row];
+		return m_values[to1D(column, row)];
 	}
 
 	unsigned matrix3f::to1D(const unsigned& col, const unsigned& row) {

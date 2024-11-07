@@ -1,16 +1,22 @@
 #pragma once
 
+#ifdef SOGL_EXPORT
+#define SOGL_API __declspec(dllexport)
+#else
+#define SOGL_API __declspec(dllimport)
+#endif
+
 namespace shir0GL {
 	struct vec3f;
 
-	/*	Matrix3f is in COLUMN-MAJOR order.
+	/*	matrix3f is in COLUMN-MAJOR order.
 	This means that my_matrix(1,2) is equivalent to the second column, third row.
 	*/
-	struct matrix3f {
+	struct SOGL_API matrix3f {
 		// Creates an identity Matrix3f.
 		matrix3f();
 		// Creates a new Matrix3f with values copied from m.
-		matrix3f(matrix3f const&);
+		matrix3f(const matrix3f&);
 		// Creates a new Matrix3f with values copied from m.
 		matrix3f& operator=(const matrix3f&);
 		// Destructor.

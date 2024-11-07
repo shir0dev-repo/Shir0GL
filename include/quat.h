@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef SOGL_EXPORT
+#define SOGL_API __declspec(dllexport)
+#else
+#define SOGL_API __declspec(dllimport)
+#endif
 
 namespace shir0GL {
 	struct matrix3f;
@@ -7,19 +12,26 @@ namespace shir0GL {
 	struct vec3f;
 
 	// 4D vector that handles rotations.
-	struct quat {
+	struct SOGL_API quat {
 		static quat identity;
 
 		float x, y, z, w;
 
 		// Identity quaternion (no rotation).
 		quat();
+		
 		// Constructs a quaternion from the euler angles xDegrees, yDegrees, and zDegrees.
 		quat(const float&, const float&, const float&);
+		
 		// Constructs a quaternion from the euler angles v.
 		quat(const vec3f&);
+		
+		// Constructs a quaternion from the rotation matrix mat.
+		quat(const matrix3f&);
+		
 		// Copies values of quaternion other.
 		quat(const quat&);
+		
 		// Assigns this quaternion's components from rhs.
 		quat& operator=(const quat&);
 
@@ -83,5 +95,5 @@ namespace shir0GL {
 		bool operator!=(const quat&) const;
 	};
 
-	quat quat::identity = quat();
+	
 }

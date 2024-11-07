@@ -1,10 +1,16 @@
 #pragma once
 
+#ifdef SOGL_EXPORT
+#define SOGL_API __declspec(dllexport)
+#else
+#define SOGL_API __declspec(dllimport)
+#endif
+
 namespace shir0GL {
 	typedef unsigned char uint8_t;
 	struct color;
 
-	struct color32 {
+	struct SOGL_API color32 {
 		static color32 BLACK;
 		static color32 RED;
 		static color32 YELLOW;
@@ -38,16 +44,4 @@ namespace shir0GL {
 		static color32 min;
 		static color32 max;
 	};
-
-	color32 color32::BLACK = color32(0, 0, 0);
-	color32 color32::RED = color32(255, 0, 0);
-	color32 color32::YELLOW = color32(255, 255, 0);
-	color32 color32::GREEN = color32(0, 255, 0);
-	color32 color32::CYAN = color32(0, 255, 255);
-	color32 color32::BLUE = color32(0, 0, 255);
-	color32 color32::MAGENTA = color32(255, 0, 255);
-	color32 color32::WHITE = color32(255, 255, 255);
-
-	color32 color32::min = color32(0, 0, 0, 0);
-	color32 color32::max = color32(255, 255, 255, 255);
 }

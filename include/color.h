@@ -1,9 +1,15 @@
 #pragma once
 
+#ifdef SOGL_EXPORT
+#define SOGL_API __declspec(dllexport)
+#else
+#define SOGL_API __declspec(dllimport)
+#endif
+
 namespace shir0GL {
 	struct color32;
 
-	struct color {
+	struct SOGL_API color {
 		static color BLACK;
 		static color RED;
 		static color YELLOW;
@@ -35,12 +41,5 @@ namespace shir0GL {
 	};
 
 
-	color color::BLACK = color(0, 0, 0);
-	color color::RED = color(1, 0, 0);
-	color color::YELLOW = color(1, 1, 0);
-	color color::GREEN = color(0, 1, 0);
-	color color::CYAN = color(0, 1, 1);
-	color color::BLUE = color(0, 0, 1);
-	color color::MAGENTA = color(1, 0, 1);
-	color color::WHITE = color(1, 1, 1);
+	
 }

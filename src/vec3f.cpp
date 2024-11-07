@@ -1,9 +1,20 @@
-#include "pch.h"
-#include "vec3f.h"
-#include "Matrix3f.h"
-#include "quat.h"
+#include "../include/pch.h"
+#include "../include/vec3f.h"
+#include "../include/Matrix3f.h"
+#include "../include/quat.h"
 
 namespace shir0GL {
+#ifdef SOGL_EXPORT
+	vec3f SOGL_API vec3f::ZERO = vec3f(0, 0, 0);
+	vec3f SOGL_API vec3f::LEFT = vec3f(-1, 0 ,0);
+	vec3f SOGL_API vec3f::RIGHT = vec3f(1, 0, 0);
+	vec3f SOGL_API vec3f::DOWN = vec3f(0, -1, 0);
+	vec3f SOGL_API vec3f::UP = vec3f(0, 1, 0);
+	vec3f SOGL_API vec3f::BACK = vec3f(0, 0, -1);
+	vec3f SOGL_API vec3f::FORWARD = vec3f(0, 0, 1);
+	vec3f SOGL_API vec3f::ONE = vec3f(1, 1, 1);
+#endif
+
 	vec3f::vec3f(const float& x, const float& y, const float& z) {
 		this->x = x;
 		this->y = y;

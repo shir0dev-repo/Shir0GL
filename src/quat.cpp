@@ -1,26 +1,25 @@
-#include "pch.h"
-#include "quat.h"
-#include "vec3f.h"
-#include "Matrix3f.h"
+#include "../include/pch.h"
+#include "../include/quat.h"
+#include "../include/vec3f.h"
+#include "../include/Matrix3f.h"
 
 namespace shir0GL {
+#ifdef SOGL_EXPORT
+	quat quat::identity = quat();
+#endif
+
 	quat::quat() {
 		this->x = 0;
 		this->y = 0;
 		this->z = 0;
 		this->w = 1;
 	}
+
 	quat::quat(const quat& other) {
 		this->x = other.x;
 		this->y = other.y;
 		this->z = other.z;
 		this->w = other.w;
-	}
-	quat& quat::operator=(const quat& rhs) {
-		this->x = rhs.x;
-		this->y = rhs.y;
-		this->z = rhs.z;
-		this->w = rhs.w;
 	}
 
 	quat::quat(const float& xDegrees, const float& yDegrees, const float& zDegrees) {
@@ -41,6 +40,62 @@ namespace shir0GL {
 	}
 
 	quat::quat(const vec3f& v) : quat(v.x, v.y, v.z) { }
+
+	quat::quat(const matrix3f& mat) {
+		//https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf
+		// matrix on website is row-major, values must be flipped
+		float t;
+
+		if (mat(2, 2) < 0) {
+			if (mat(0, 0) > mat(1, 1)) {
+				t = 1 + mat(0, 0) - mat(1, 1) - mat(2, 2);
+
+				x = t;
+				y = mat(1, 0) + mat(0, 1);
+				z = mat(0, 2) + mat(2, 0);
+				w = mat(2, 1) - mat(1, 2);
+			}
+			else {
+				t = 1 - mat(0, 0) + mat(1, 1) - mat(2, 2);
+
+				x = mat(1, 0) + mat(0, 1);
+				y = t;
+				z = mat(2, 1) + mat(1, 2);
+				w = mat(0, 2) - mat(2, 0);
+			}
+		}
+		else {
+			if (mat(0, 0) < -mat(1, 1)) {
+				t = 1 - mat(0, 0) - mat(1, 1) + mat(2, 2);
+
+				x = mat(0, 2) + mat(2, 0);
+				y = mat(2, 1) + mat(1, 2);
+				z = t;
+				w = mat(1, 0) - mat(0, 1);
+			}
+			else {
+				t = 1 + mat(0, 0) + mat(1, 1) + mat(2, 2);
+
+				x = mat(2, 1) - mat(1, 2);
+				y = mat(0, 2) - mat(2, 0);
+				z = mat(1, 0) - mat(0, 1);
+				w = t;
+			}
+		}
+
+		*this *= 0.5f / sqrtf(t);
+	}
+
+	quat& quat::operator=(const quat& rhs) {
+		this->x = rhs.x;
+		this->y = rhs.y;
+		this->z = rhs.z;
+		this->w = rhs.w;
+
+		return *this;
+	}
+
+	
 
 	vec3f quat::toEulerAngles() const {
 		vec3f eulers;

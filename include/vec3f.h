@@ -1,10 +1,16 @@
 #pragma once
 
+#ifdef SOGL_EXPORT
+#define SOGL_API __declspec(dllexport)
+#else
+#define SOGL_API __declspec(dllimport)
+#endif
+
 namespace shir0GL {
 	struct matrix3f;
 	struct quat;
 
-	struct vec3f {
+	struct SOGL_API vec3f {
 		static vec3f ZERO;
 		static vec3f LEFT;
 		static vec3f RIGHT;
