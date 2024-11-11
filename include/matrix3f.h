@@ -6,28 +6,40 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-namespace shir0GL {
+namespace sogl {
 	struct vec3f;
 
 	/*	matrix3f is in COLUMN-MAJOR order.
 	This means that my_matrix(1,2) is equivalent to the second column, third row.
 	*/
 	struct SOGL_API matrix3f {
+		static matrix3f IDENTITY;
+
 		// Creates an identity Matrix3f.
 		matrix3f();
+
 		// Creates a new Matrix3f with values copied from m.
 		matrix3f(const matrix3f&);
+
 		// Creates a new Matrix3f with values copied from m.
 		matrix3f& operator=(const matrix3f&);
+
 		// Destructor.
 		~matrix3f();
 
+		// Returns the determinant of this matrix.
 		float determinant() const;
 
+		// Returns an inverted version of this matrix.
 		matrix3f inverted() const;
+
+		// Inverts this matrix.
 		void invert();
 		
+		// Returns a copy of this matrix which is transposed.
 		matrix3f transposed() const;
+
+		// Transposes this matrix.
 		void transpose();
 
 		// Returns a vec3f for the specified row.
@@ -38,7 +50,8 @@ namespace shir0GL {
 		float* const getPointer();
 
 		// Returns the value at specified column and row.
-		float  operator() (const unsigned& column, const unsigned& row) const;
+		float operator() (const unsigned& column, const unsigned& row) const;
+
 		// Returns the address at the specified column and row.
 		float& operator() (const unsigned& column, const unsigned& row);
 		

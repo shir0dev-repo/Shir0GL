@@ -6,16 +6,17 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-namespace shir0GL {
+namespace sogl {
 	struct vec3f;
 	struct vec4f;
 	struct quat;
 	struct matrix3f;
-
 	/*	matrix4f is in COLUMN-MAJOR order.
 	This means that my_matrix(1,2) is equivalent to the second column, third row.
 	*/
 	struct SOGL_API matrix4f {
+		static matrix4f IDENTITY;
+
 		// Constructs an identity matrix.
 		matrix4f();
 
@@ -46,7 +47,7 @@ namespace shir0GL {
 		// Inverts this matrix using Gauss-Jordan Elimination.
 		void invert();
 
-		// RReturns a copy of this matrix which is transposed.
+		// Returns a copy of this matrix which is transposed.
 		matrix4f transposed() const;
 
 		// Transposes this matrix.
@@ -58,6 +59,15 @@ namespace shir0GL {
 		// Returns a 4D vector representing the given column.
 		vec4f getColumn(const unsigned&) const;
 		
+		// Returns a 3D vector representing this matrix's translation.
+		vec3f getTranslation() const;
+
+		// Sets this matrix's translation.
+		void setTranslation(const vec3f&);
+
+		// Applies a translation to this matrix.
+		void translate(const vec3f&);
+
 		// Returns the extracted rotation matrix of this matrix.
 		matrix3f getRotationMatrix() const;
 
@@ -75,15 +85,6 @@ namespace shir0GL {
 
 		// Applies a rotation to this matrix.
 		void rotate(const matrix3f&);
-
-		// Returns a 3D vector representing this matrix's translation.
-		vec3f getTranslation() const;
-		
-		// Sets this matrix's translation.
-		void setTranslation(const vec3f&);
-
-		// Applies a translation to this matrix.
-		void translate(const vec3f&);
 
 		// Returns the value at specified column and row.
 		float  operator() (const unsigned& column, const unsigned& row) const;

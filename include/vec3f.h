@@ -6,11 +6,11 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-namespace shir0GL {
+namespace sogl {
 	struct matrix3f;
 	struct quat;
 
-	struct SOGL_API vec3f {
+	struct SOGL_API vec3f {	
 		static vec3f ZERO;
 		static vec3f LEFT;
 		static vec3f RIGHT;
@@ -46,6 +46,9 @@ namespace shir0GL {
 
 		vec3f operator*(const quat&) const;
 		vec3f& operator*=(const quat&);
+
+		vec3f operator*(const float&) const;
+		vec3f& operator*=(const float&);
 
 		bool operator==(const vec3f&) const;
 		bool operator!=(const vec3f&) const;

@@ -6,11 +6,11 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-namespace shir0GL {
+namespace sogl {
 	struct vec3f;
 	struct matrix4f;
 
-	struct SOGL_API vec4f {
+	struct SOGL_API vec4f {		
 		float x, y, z, w;
 
 		vec4f(const float& x = 0.0f, const float& y = 0.0f, const float& z = 0.0f, const float& w = 1.0f);

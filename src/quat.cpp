@@ -1,11 +1,16 @@
-#include "../include/pch.h"
-#include "../include/quat.h"
-#include "../include/vec3f.h"
-#include "../include/Matrix3f.h"
+#include <math.h>
+#include <algorithm>
 
-namespace shir0GL {
+#include "mathutil.h"
+#include "quat.h"
+#include "vec3f.h"
+#include "vec4f.h"
+#include "Matrix3f.h"
+
+
+namespace sogl {
 #ifdef SOGL_EXPORT
-	quat quat::identity = quat();
+	quat quat::IDENTITY = quat();
 #endif
 
 	quat::quat() {
@@ -23,13 +28,13 @@ namespace shir0GL {
 	}
 
 	quat::quat(const float& xDegrees, const float& yDegrees, const float& zDegrees) {
-		float cx = cosf(deg2rad * xDegrees / 2.0f);
-		float cy = cosf(deg2rad * yDegrees / 2.0f);
-		float cz = cosf(deg2rad * zDegrees / 2.0f);
+		float cx = cos(DEG2RAD * xDegrees / 2.0f);
+		float cy = cos(DEG2RAD * yDegrees / 2.0f);
+		float cz = cos(DEG2RAD * zDegrees / 2.0f);
 
-		float sx = sinf(deg2rad * xDegrees / 2.0f);
-		float sy = sinf(deg2rad * yDegrees / 2.0f);
-		float sz = sinf(deg2rad * zDegrees / 2.0f);
+		float sx = sin(DEG2RAD * xDegrees / 2.0f);
+		float sy = sin(DEG2RAD * yDegrees / 2.0f);
+		float sz = sin(DEG2RAD * zDegrees / 2.0f);
 
 		x = sx * cy * cz + cx * sy * sz;
 		y = cx * sy * cz - sx * cy * sz;
@@ -83,7 +88,8 @@ namespace shir0GL {
 			}
 		}
 
-		*this *= 0.5f / sqrtf(t);
+		*this *= 0.5f / sqrt(t);
+		normalize();
 	}
 
 	quat& quat::operator=(const quat& rhs) {
@@ -100,9 +106,9 @@ namespace shir0GL {
 	vec3f quat::toEulerAngles() const {
 		vec3f eulers;
 
-		eulers.z = rad2deg * atan2f(2.0f * (w * z + x * y), 1.0f - 2.0f * z * z + x * x);
-		eulers.x = rad2deg * asinf(2.0f * w * x - z * y);
-		eulers.y = rad2deg * atan2f(2.0f * (w * y + z * x), 1.0f - 2.0f * (x * x + y * y));
+		eulers.z = RAD2DEG * atan2(2.0f * (w * z + x * y), 1.0f - 2.0f * z * z + x * x);
+		eulers.x = RAD2DEG * asin(2.0f * w * x - z * y);
+		eulers.y = RAD2DEG * atan2(2.0f * (w * y + z * x), 1.0f - 2.0f * (x * x + y * y));
 
 		return eulers;
 	}
@@ -111,7 +117,7 @@ namespace shir0GL {
 		return x * x + y * y + z * z + w * w;
 	}
 	float quat::length() const {
-		return sqrtf(lengthSquared());
+		return sqrt(lengthSquared());
 	}
 
 	void quat::normalize() {
@@ -130,6 +136,9 @@ namespace shir0GL {
 
 	quat quat::conjugate() const {
 		quat q(*this);
+		
+		q.normalize();
+
 		q.x *= -1;
 		q.y *= -1;
 		q.z *= -1;
@@ -159,17 +168,17 @@ namespace shir0GL {
 		float zw = z * w;
 
 		matrix3f m;
-		m(0, 0) = 1.0f - 2.0f * (yy + zz);
-		m(0, 1) = 2.0f * (xy - zw);
-		m(0, 2) = 2.0f * (xz + yw);
+		m(0, 0) = 1.0f - 2.0f * (yy - zz);
+		m(0, 1) = 2.0f * (xy + zw);
+		m(0, 2) = 2.0f * (xz - yw);
 
-		m(1, 0) = 2.0f * (xy + zw);
-		m(1, 1) = 1.0f - 2.0f * (xx + zz);
-		m(1, 2) = 2.0f * (yz - xw);
+		m(1, 0) = 2.0f * (xy - zw);
+		m(1, 1) = 1.0f - 2.0f * (xx - zz);
+		m(1, 2) = 2.0f * (yz + xw);
 
-		m(2, 0) = 2.0f * (xz - yw);
-		m(2, 1) = 2.0f * (yz + xw);
-		m(2, 2) = 1.0f - 2.0f * (xx + yy);
+		m(2, 0) = 2.0f * (xz + yw);
+		m(2, 1) = 2.0f * (yz - xw);
+		m(2, 2) = 1.0f - 2.0f * (xx - yy);
 
 		return m;
 	}
@@ -206,11 +215,11 @@ namespace shir0GL {
 	quat quat::axisAngle(const vec3f& axis, const float& angle) {
 		quat q;
 
-		float rad = deg2rad * angle;
-		q.x = axis.x * sinf(rad / 2.0f);
-		q.y = axis.y * sinf(rad / 2.0f);
-		q.z = axis.z * sinf(rad / 2.0f);
-		q.w = cosf(rad / 2.0f);
+		float rad = DEG2RAD * angle;
+		q.x = axis.x * sin(rad / 2.0f);
+		q.y = axis.y * sin(rad / 2.0f);
+		q.z = axis.z * sin(rad / 2.0f);
+		q.w = cos(rad / 2.0f);
 
 		return q;
 	}
@@ -229,7 +238,7 @@ namespace shir0GL {
 		}
 
 		axis = vec3f::cross(a, b).normalized();
-		float angle = rad2deg * acosf(aDotB);
+		float angle = RAD2DEG * acos(aDotB);
 		return axisAngle(axis, angle);
 	}
 
@@ -283,30 +292,39 @@ namespace shir0GL {
 		return *this;
 	}
 
-	quat quat::operator*(const quat& q) const {
-		quat q1(*this);
-		q1.x *= q.x;
-		q1.y *= q.y;
-		q1.z *= q.z;
-		q1.w *= q.w;
+	quat quat::operator*(const quat& q) const {		
+		quat q1;
+		
+		q1.x = x * q.w + w * q.x + y * q.z - z * q.y;
+		q1.y = y * q.w + w * q.y + z * q.x - x * q.z;
+		q1.z = z * q.w + w * q.z + x * q.y - y * q.x;
+		q1.w = w * q.w - x * q.x - y * q.y - z * q.z;
 
 		return q1;
 	}
 	quat& quat::operator*=(const quat& q) {
-		x *= q.x;
-		y *= q.y;
-		z *= q.z;
-		w *= q.w;
+		*this = *this * q;
 
 		return *this;
 	}
 
+	vec3f quat::operator*(const vec3f& v) const {
+		quat pure;
+		pure.x = v.x;
+		pure.y = v.y;
+		pure.z = v.z;
+		pure.w = 0;
+		quat result = this->conjugate() * pure * *this;
+
+		return vec3f(result.x, result.y, result.z);
+	}
+
 	quat quat::operator^(const float& exp) const {
 		quat q(*this);
-		q.x = powf(q.x, exp);
-		q.y = powf(q.y, exp);
-		q.z = powf(q.z, exp);
-		q.w = powf(q.w, exp);
+		q.x = pow(q.x, exp);
+		q.y = pow(q.y, exp);
+		q.z = pow(q.z, exp);
+		q.w = pow(q.w, exp);
 
 		return q;
 	}

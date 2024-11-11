@@ -1,8 +1,10 @@
-#include "../include/pch.h"
-#include "../include/color.h"
-#include "../include/color32.h"
+#include <algorithm>
 
-namespace shir0GL {
+#include "color.h"
+#include "color32.h"
+
+
+namespace sogl {
 #ifdef SOGL_EXPORT
 	color color::BLACK = color(0, 0, 0);
 	color color::RED = color(1, 0, 0);
@@ -13,7 +15,6 @@ namespace shir0GL {
 	color color::MAGENTA = color(1, 0, 1);
 	color color::WHITE = color(1, 1, 1);
 #endif
-
 	color::color(float r, float g, float b, float a) {
 		this->r = r;
 		this->g = g;
@@ -21,7 +22,22 @@ namespace shir0GL {
 		this->a = a;
 	}
 
-	color color::lerp(color const& a, color const& b, float const& t) {
+	color::color(const color& c) {
+		*this = c;
+	}
+
+	color& color::operator=(const color& c) {
+		r = c.r;
+		g = c.g;
+		b = c.b;
+		a = c.a;
+
+		return *this;
+	}
+
+	color color::lerp(const color& a, const color& b, const float& t) {
+		color c = b - a;
+		c = c + (b - a);
 		return a + (b - a) * t;
 	}
 	color color::saturate(color const& a) {
@@ -37,33 +53,59 @@ namespace shir0GL {
 		a = std::max(0.0f, std::min(a, 1.0f));
 	}
 
-	color operator+(color const& a, color const& b) {
-		return color(a.r + b.r, a.g + b.g, a.b + b.b, a.a + b.a);
-	}
-	color color::operator+=(color const& b) {
-		*this = *this + b;
-		return *this;
-	}
-
-	color operator-(color const& a, color const& b) {
-		return color(a.r - b.r, a.g - b.g, a.b - b.b, a.a - b.a);
-	}
-	color color::operator-=(color const& b) {
-		*this = *this - b;
-		return *this;
-	}
-
-	color operator*(color const& a, float const& b) {
-		color c = a;
-		c.r *= b;
-		c.g *= b;
-		c.b *= b;
-		c.a *= b;
+	color color::operator+(color const& b) const {
+		color c = *this;
+		c.r += b.r;
+		c.g += b.g;
+		c.b += b.b;
+		c.a += b.a;
 
 		return c;
 	}
-	color color::operator*=(float const& b) {
-		*this = *this * b;
+	color& color::operator+=(color const& b) {
+		this->r += b.r;
+		this->g += b.g;
+		this->b += b.b;
+		this->a += b.a;
+
+		return *this;
+	}
+
+	color color::operator-(const color& b) const {
+		color c = *this;
+		c.r -= b.r;
+		c.g -= b.g;
+		c.b -= b.b;
+		c.a -= b.a;
+
+		return c;
+	}
+
+	color& color::operator-=(const color& b) {
+		this->r -= b.r;
+		this->g -= b.g;
+		this->b -= b.b;
+		this->a -= b.a;
+
+		return *this;
+	}
+
+	color color::operator*(float const& scalar) const {
+		color c = *this;
+		c.r *= scalar;
+		c.g *= scalar;
+		c.b *= scalar;
+		c.a *= scalar;
+
+		return c;
+	}
+
+	color& color::operator*=(float const& scalar) {
+		this->r *= scalar;
+		this->g *= scalar;
+		this->b *= scalar;
+		this->a *= scalar;
+
 		return *this;
 	}
 

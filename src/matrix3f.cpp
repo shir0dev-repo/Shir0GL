@@ -1,8 +1,13 @@
-#include "../include/pch.h"
-#include "../include/Matrix3f.h"
-#include "../include/vec3f.h"
+#include <algorithm>
 
-namespace shir0GL {
+#include <matrix3f.h>
+#include "vec3f.h"
+
+namespace sogl {
+#ifdef SOGL_EXPORT
+	matrix3f matrix3f::IDENTITY = matrix3f();
+#endif
+
 	matrix3f::matrix3f() {
 		m_values = new float[9];
 		for (int i = 0; i < 3; i++) {
@@ -78,7 +83,7 @@ namespace shir0GL {
 
 			// column iterator
 			for (int j = i + 1; j < 3; j++) {
-				if (fabsf(augmented.m_values[to1D(i, j)]) > fabsf(augmented.m_values[to1D(i, pivotRow)])) {
+				if (abs(augmented.m_values[to1D(i, j)]) > abs(augmented.m_values[to1D(i, pivotRow)])) {
 					pivotRow = j;
 				}
 			}
@@ -139,9 +144,9 @@ namespace shir0GL {
 
 	vec3f matrix3f::operator*(const vec3f& v) const {
 		vec3f temp;
-		temp.x = v.x * m_values[to1D(0, 0)] + v.y * m_values[to1D(0, 1)] + v.z * m_values[to1D(0, 2)];
-		temp.y = v.x * m_values[to1D(1, 0)] + v.y * m_values[to1D(1, 1)] + v.z * m_values[to1D(1, 2)];
-		temp.z = v.x * m_values[to1D(2, 0)] + v.y * m_values[to1D(2, 1)] + v.z * m_values[to1D(2, 2)];
+		temp.x = v.x * m_values[to1D(0, 0)] + v.y * m_values[to1D(1, 0)] + v.z * m_values[to1D(2, 0)];
+		temp.y = v.x * m_values[to1D(0, 1)] + v.y * m_values[to1D(1, 1)] + v.z * m_values[to1D(2, 1)];
+		temp.z = v.x * m_values[to1D(0, 2)] + v.y * m_values[to1D(1, 2)] + v.z * m_values[to1D(2, 2)];
 
 		return temp;
 	}

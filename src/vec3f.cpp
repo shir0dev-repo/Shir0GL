@@ -1,20 +1,21 @@
-#include "../include/pch.h"
-#include "../include/vec3f.h"
-#include "../include/Matrix3f.h"
-#include "../include/quat.h"
+#include <math.h>
 
-namespace shir0GL {
+#include "vec3f.h"
+#include "vec4f.h"
+#include "Matrix3f.h"
+#include "quat.h"
+
+namespace sogl {
 #ifdef SOGL_EXPORT
-	vec3f SOGL_API vec3f::ZERO = vec3f(0, 0, 0);
-	vec3f SOGL_API vec3f::LEFT = vec3f(-1, 0 ,0);
-	vec3f SOGL_API vec3f::RIGHT = vec3f(1, 0, 0);
-	vec3f SOGL_API vec3f::DOWN = vec3f(0, -1, 0);
-	vec3f SOGL_API vec3f::UP = vec3f(0, 1, 0);
-	vec3f SOGL_API vec3f::BACK = vec3f(0, 0, -1);
-	vec3f SOGL_API vec3f::FORWARD = vec3f(0, 0, 1);
-	vec3f SOGL_API vec3f::ONE = vec3f(1, 1, 1);
+	vec3f vec3f::ZERO = vec3f(0, 0, 0);
+	vec3f vec3f::LEFT = vec3f(-1, 0 ,0);
+	vec3f vec3f::RIGHT = vec3f(1, 0, 0);
+	vec3f vec3f::DOWN = vec3f(0, -1, 0);
+	vec3f vec3f::UP = vec3f(0, 1, 0);
+	vec3f vec3f::BACK = vec3f(0, 0, -1);
+	vec3f vec3f::FORWARD = vec3f(0, 0, 1);
+	vec3f vec3f::ONE = vec3f(1, 1, 1);
 #endif
-
 	vec3f::vec3f(const float& x, const float& y, const float& z) {
 		this->x = x;
 		this->y = y;
@@ -24,15 +25,15 @@ namespace shir0GL {
 		*this = v;
 	}
 	vec3f& vec3f::operator=(const vec3f& v) {
-		this->x = v.x;
-		this->y = v.y;
-		this->z = v.z;
+		x = v.x;
+		y = v.y;
+		z = v.z;
 
 		return *this;
 	}
 
 	float vec3f::length() const {
-		return sqrtf(lengthSquared());
+		return sqrt(lengthSquared());
 	}
 	float vec3f::lengthSquared() const {
 		return x * x + y * y + z * z;
@@ -105,31 +106,31 @@ namespace shir0GL {
 	}
 
 	vec3f vec3f::operator*(const quat& q) const {
-		vec3f result;
-		quat pure;
-		pure.x = x;
-		pure.y = y;
-		pure.z = z;
-		pure.w = 0;
-		pure = q * pure * q.conjugate();
+		vec3f v(*this);
+		v = q.toMatrix3f() * v;
 
-		result.x = pure.x;
-		result.y = pure.y;
-		result.z = pure.z;
-
-		return result;
+		return v;
 	}
 	vec3f& vec3f::operator*=(const quat& q) {
-		quat pure;
-		pure.x = x;
-		pure.y = y;
-		pure.z = z;
-		pure.w = 0;
-		pure = q * pure * q.conjugate();
+		*this = *this * q;
 
-		x = pure.x;
-		y = pure.y;
-		z = pure.z;
+		return *this;
+	}
+
+	vec3f vec3f::operator*(const float& scalar) const {
+		vec3f v(*this);
+
+		v.x *= scalar;
+		v.y *= scalar;
+		v.z *= scalar;
+
+		return v;
+	}
+
+	vec3f& vec3f::operator*=(const float& scalar) {
+		x *= scalar;
+		y *= scalar;
+		z *= scalar;
 
 		return *this;
 	}

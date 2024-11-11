@@ -6,14 +6,14 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-namespace shir0GL {
+namespace sogl {
+	struct vec3f;
 	struct matrix3f;
 	struct matrix4f;
-	struct vec3f;
 
 	// 4D vector that handles rotations.
 	struct SOGL_API quat {
-		static quat identity;
+		static quat IDENTITY;
 
 		float x, y, z, w;
 
@@ -84,9 +84,12 @@ namespace shir0GL {
 		quat operator*(const quat&) const;
 		quat& operator*=(const quat&);
 		
+		vec3f operator*(const vec3f&) const;
+
 		/*NOT A BINARY OPERATOR!!
 		Returns a copied version of this quaternion whose components are raised to a power of exp.*/
 		quat operator^(const float&) const;
+
 		/*NOT A BINARY OPERATOR!!
 		Returns a copied version of this quaternion whose components are raised to a power of exp.*/
 		quat& operator^=(const float&);

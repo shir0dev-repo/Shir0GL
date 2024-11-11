@@ -1,10 +1,8 @@
-#include "../include/pch.h"
+#include "vec4f.h"
+#include "vec3f.h"
+#include "matrix4f.h"
 
-#include "../include/vec4f.h"
-#include "../include/vec3f.h"
-#include "../include/matrix4f.h"
-
-namespace shir0GL {
+namespace sogl {
 	vec4f::vec4f(const float& x, const float& y, const float& z, const float& w) {
 		this->x = x;
 		this->y = y;
@@ -87,10 +85,5 @@ namespace shir0GL {
 
 	vec4f::operator vec3f() const {
 		return vec3f(x, y, z);
-
-
-
-
-
 	}
 }

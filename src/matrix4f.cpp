@@ -1,17 +1,24 @@
-#include "../include/pch.h"
+#include <algorithm>
 
-#include "../include/matrix4f.h"
-#include "../include/matrix3f.h"
-#include "../include/vec3f.h"
-#include "../include/vec4f.h"
-#include "../include/quat.h"
+#include "matrix4f.h"
 
-namespace shir0GL {
+#include "math.h"
+#include "matrix3f.h"
+#include "vec3f.h"
+#include "vec4f.h"
+#include "quat.h"
+
+
+namespace sogl {
+#ifdef SOGL_EXPORT
+	matrix4f matrix4f::IDENTITY = matrix4f();
+#endif
+
 	matrix4f::matrix4f() {
 		m_values = new float[16];
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				m_values[to1D(i, j)] = i == j ? 1.0f : 0.0f;
+				m_values[to1D(i, j)] = (i == j) ? 1.0f : 0.0f;
 			}
 		}
 	}
@@ -73,7 +80,7 @@ namespace shir0GL {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				matrix3f sub = submatrix(i, j);
-				cofactor.m_values[to1D(i, j)] = powf(-1.0f, i + j) * sub.determinant();
+				cofactor.m_values[to1D(i, j)] = pow(-1.0f, i + j) * sub.determinant();
 			}
 		}
 
@@ -100,7 +107,7 @@ namespace shir0GL {
 
 			// column iterator
 			for (int j = i + 1; j < 4; j++) {
-				if (fabsf(augmented.m_values[to1D(i, j)]) > fabsf(augmented.m_values[to1D(i, pivotRow)])) {
+				if (abs(augmented.m_values[to1D(i, j)]) > abs(augmented.m_values[to1D(i, pivotRow)])) {
 					pivotRow = j;
 				}
 			}
@@ -181,6 +188,22 @@ namespace shir0GL {
 		return v;
 	}
 
+	vec3f matrix4f::getTranslation() const {
+		return (vec3f)getColumn(3);
+	}
+
+	void matrix4f::setTranslation(const vec3f& position) {
+		m_values[3] = position.x;
+		m_values[7] = position.y;
+		m_values[11] = position.z;
+	}
+
+	void matrix4f::translate(const vec3f& translation) {
+		m_values[3] += translation.x;
+		m_values[7] += translation.y;
+		m_values[11] += translation.z;
+	}
+
 	matrix3f matrix4f::getRotationMatrix() const {
 		return submatrix(3, 3);
 	}
@@ -209,22 +232,7 @@ namespace shir0GL {
 		setRotation(rotationMatrix * getRotationMatrix());
 	}
 
-	vec3f matrix4f::getTranslation() const {
-		return (vec3f) getColumn(3);
-	}
-
-	void matrix4f::setTranslation(const vec3f& position) {
-		m_values[3] = position.x;
-		m_values[7] = position.y;
-		m_values[11] = position.z;
-	}
-
-	void matrix4f::translate(const vec3f& translation) {
-		m_values[3] += translation.x;
-		m_values[7] += translation.y;
-		m_values[11] += translation.z;
-	}
-
+	
 	float matrix4f::operator()(const unsigned& column, const unsigned& row) const {
 		float v = m_values[to1D(column, row)];
 		return v;
@@ -240,10 +248,10 @@ namespace shir0GL {
 
 	vec4f matrix4f::operator*(const vec4f& v) const {
 		vec4f result;
-		result.x = vec4f::dot(v, getRow(0));
-		result.y = vec4f::dot(v, getRow(1));
-		result.z = vec4f::dot(v, getRow(2));
-		result.w = vec4f::dot(v, getRow(3));
+		result.x = vec4f::dot(v, getColumn(0));
+		result.y = vec4f::dot(v, getColumn(1));
+		result.z = vec4f::dot(v, getColumn(2));
+		result.w = vec4f::dot(v, getColumn(3));
 
 		return result;
 	}
@@ -327,7 +335,6 @@ namespace shir0GL {
 			if (m_values[i] != other.m_values[i])
 				return false;
 		}
-
 		return true;
 	}
 
