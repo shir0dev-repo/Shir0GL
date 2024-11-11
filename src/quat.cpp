@@ -143,6 +143,7 @@ namespace sogl {
 	}
 	quat quat::inverse() const {
 		quat q = conjugate();
+
 		float inv_lSqr = 1.0f / lengthSquared();
 		q.x *= inv_lSqr;
 		q.y *= inv_lSqr;
@@ -152,7 +153,7 @@ namespace sogl {
 		return q;
 	}
 
-	matrix3f quat::toMatrix3f() const {
+	matrix3f quat::rotationMatrix() const {
 		float xx = x * x;
 		float xy = x * y;
 		float xz = x * z;
@@ -198,44 +199,6 @@ namespace sogl {
 		}
 
 		return a * (a.conjugate() * b) ^ t;
-	}
-
-	quat quat::euler(const vec3f& v) {
-		return quat(v);
-	}
-
-	quat quat::euler(const float& xDegrees, const float& yDegrees, const float& zDegrees) {
-		return quat(xDegrees, yDegrees, zDegrees);
-	}
-
-	quat quat::axisAngle(const vec3f& axis, const float& angle) {
-		quat q;
-
-		float rad = DEG2RAD * angle;
-		q.x = axis.x * sin(rad / 2.0f);
-		q.y = axis.y * sin(rad / 2.0f);
-		q.z = axis.z * sin(rad / 2.0f);
-		q.w = cos(rad / 2.0f);
-
-		return q;
-	}
-
-	quat quat::fromToRotation(const vec3f& a, const vec3f& b) {
-		float aDotB = vec3f::dot(a, b);
-		vec3f axis;
-
-		if (aDotB < -0.9999f) {
-			axis = vec3f::cross(a, vec3f::RIGHT);
-			if (axis.length() < 0.0001f)
-				axis = vec3f::cross(a, vec3f::UP).normalized();
-
-
-			return axisAngle(axis, 180.0f);
-		}
-
-		axis = vec3f::cross(a, b).normalized();
-		float angle = RAD2DEG * acos(aDotB);
-		return axisAngle(axis, angle);
 	}
 
 	quat quat::operator+(const quat& q) const {

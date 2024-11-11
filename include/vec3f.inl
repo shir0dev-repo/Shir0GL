@@ -6,10 +6,9 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-namespace sogl {
-	struct matrix3f;
-	struct quat;
+#include <math.h>
 
+namespace sogl {
 	struct SOGL_API vec3f {	
 		static vec3f ZERO;
 		static vec3f LEFT;
@@ -45,7 +44,7 @@ namespace sogl {
 		}
 
 		inline float length() const {
-			return sqrtf(x * x + y * y + z * z);
+			return sqrt(x * x + y * y + z * z);
 		}
 		inline float lengthSquared() const {
 			return x * x + y * y + z * z;

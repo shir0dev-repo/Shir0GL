@@ -4,4 +4,4 @@
 #include "matrix4f.h"
 
 #include "vec3f.inl"
-#include "vec4f.h"
+#include "vec4f.inl"

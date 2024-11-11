@@ -207,7 +207,7 @@ namespace sogl {
 	}
 
 	void matrix4f::setRotation(const quat& rotation) {
-		setRotation(rotation.toMatrix3f());
+		setRotation(rotation.rotationMatrix());
 	}
 
 	void matrix4f::setRotation(const matrix3f& rotationMatrix) {
@@ -219,7 +219,7 @@ namespace sogl {
 	}
 
 	void matrix4f::rotate(const quat& rotation) {
-		rotate(rotation.toMatrix3f());
+		rotate(rotation.rotationMatrix());
 	}
 
 	void matrix4f::rotate(const matrix3f& rotationMatrix) {

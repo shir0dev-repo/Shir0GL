@@ -1,4 +1,4 @@
 #pragma once
 
 #include "vec3f.inl"
-#include "vec4f.h"
+#include "vec4f.inl"
