@@ -1,4 +1,4 @@
 #pragma once
 
-#include "color.h"
-#include "color32.h"
+#include "color.inl"
+#include "color32.inl"
