@@ -2,7 +2,7 @@
 
 #include "mathutil.h"
 
-#include "vec3f.h"
+#include "vec3f.inl"
 #include "vec4f.h"
 #include "quat.h"
 
