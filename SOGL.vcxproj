@@ -183,6 +183,14 @@
     <ClCompile Include="src\vec3f.cpp" />
     <ClCompile Include="src\vec4f.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="include\sogl\camera" />
+    <None Include="include\sogl\color" />
+    <None Include="include\sogl\math\common" />
+    <None Include="include\sogl\matrix" />
+    <None Include="include\sogl\transform" />
+    <None Include="include\sogl\vector" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

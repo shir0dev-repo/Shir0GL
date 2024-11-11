@@ -1,7 +1,6 @@
 #include <algorithm>
 
-#include "color32.h"
-#include "color.h"
+#include <sogl/color>
 
 namespace sogl {
 #ifdef SOGL_EXPORT

@@ -1,11 +1,7 @@
 #include <math.h>
 #include <algorithm>
 
-#include "mathutil.h"
-#include "quat.h"
-#include "vec3f.h"
-#include "vec4f.h"
-#include "Matrix3f.h"
+#include <sogl/math/common>
 
 
 namespace sogl {

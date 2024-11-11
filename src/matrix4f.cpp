@@ -1,12 +1,6 @@
 #include <algorithm>
 
-#include "matrix4f.h"
-
-#include "math.h"
-#include "matrix3f.h"
-#include "vec3f.h"
-#include "vec4f.h"
-#include "quat.h"
+#include <sogl/math/common>
 
 
 namespace sogl {

@@ -105,4 +105,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="include\sogl\vector" />
+    <None Include="include\sogl\math\common" />
+    <None Include="include\sogl\camera" />
+    <None Include="include\sogl\matrix" />
+    <None Include="include\sogl\color" />
+    <None Include="include\sogl\transform" />
+  </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include <algorithm>
 
 #include <matrix3f.h>
-#include "vec3f.h"
+#include <vec3f.h>
 
 namespace sogl {
 #ifdef SOGL_EXPORT

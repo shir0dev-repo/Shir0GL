@@ -1,9 +1,5 @@
-#include "matrix4f.h"
-#include "vec3f.h"
-#include "quat.h"
-#include "matrix3f.h"
-
-#include "transform.h"
+#include <sogl/transform>
+#include <matrix3f.h>
 
 namespace sogl {
 	transform::transform() : m_transformationMatrix() { }

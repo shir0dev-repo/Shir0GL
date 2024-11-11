@@ -1,6 +1,4 @@
-#include "vec4f.h"
-#include "vec3f.h"
-#include "matrix4f.h"
+#include <sogl/matrix>
 
 namespace sogl {
 	vec4f::vec4f(const float& x, const float& y, const float& z, const float& w) {

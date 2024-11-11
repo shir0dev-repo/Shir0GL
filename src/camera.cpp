@@ -1,8 +1,7 @@
 #include <math.h>
 
-#include "mathutil.h"
-#include "transform.h"
-#include "camera.h"
+#include <sogl/camera>
+#include <mathutil.h>
 
 namespace sogl {
 	camera::camera() {
