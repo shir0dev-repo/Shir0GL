@@ -9,8 +9,6 @@ namespace sogl {
 
 	template <typename T> 
 	inline T clamp(T in, T min, T max) {
-		T val = std::max(min, std::min(in, max);
-
-		return val;
+		return std::max(min, std::min(in, max));
 	}
 }

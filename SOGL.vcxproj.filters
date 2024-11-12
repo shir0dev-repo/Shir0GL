@@ -42,7 +42,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\camera.h">
+    <ClInclude Include="rendering\camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\freeglut\freeglut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\freeglut\freeglut_ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\freeglut\freeglut_std.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\freeglut\glut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glew\glew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glew\glxew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glew\wglew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glfw\glfw3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glfw\glfw3native.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rendering\glfwApp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rendering\cameraData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,21 +86,21 @@
     <ClCompile Include="src\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\statics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfwApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\sogl\vector" />
-    <None Include="include\sogl\math\common" />
-    <None Include="include\sogl\camera" />
-    <None Include="include\sogl\matrix" />
-    <None Include="include\sogl\color" />
-    <None Include="include\sogl\transform" />
     <None Include="transform\vec4f.hpp">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="rendering\color.inl">
+    <None Include="rendering\color.hpp">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="rendering\color32.inl">
+    <None Include="rendering\color32.hpp">
       <Filter>Header Files</Filter>
     </None>
     <None Include="transform\mathutil.hpp">
@@ -88,5 +121,13 @@
     <None Include="transform\vec3f.hpp">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="lib\GLFW\glfw3.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\GLFW\glfw3dll.lib" />
+    <Library Include="lib\GLFW\glfw3.lib" />
+    <Library Include="lib\GLEW\glew32s.lib" />
+    <Library Include="lib\GLEW\glew32.lib" />
+    <Library Include="lib\freeglut\freeglut.lib" />
   </ItemGroup>
 </Project>

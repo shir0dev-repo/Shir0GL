@@ -380,8 +380,4 @@ namespace sogl {
 				return *this;
 			}
 	};
-
-#ifdef SOGL_EXPORT
-	quat quat::IDENTITY = quat();
-#endif
 }

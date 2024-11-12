@@ -36,12 +36,16 @@ namespace sogl {
 		}
 
 		// Copies the given matrix.
-		inline matrix4f(const matrix4f& mat) {
+		inline matrix4f(matrix4f const& mat) {
+			m_values = new float[16];
 			*this = mat;
 		}
 
 		// Assigns the given matrix's values to this matrix.
 		inline matrix4f& operator=(const matrix4f& mat) {
+			if (m_values == nullptr)
+				m_values = new float[16];
+
 			for (int i = 0; i < 16; i++) {
 				m_values[i] = mat.m_values[i];
 			}

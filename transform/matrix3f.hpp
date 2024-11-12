@@ -264,6 +264,8 @@ namespace sogl {
 					m_values[to1D(i, j)] = temp;
 				}
 			}
+
+			return *this;
 		}
 
 		inline bool operator==(const matrix3f& other) const {
@@ -279,8 +281,4 @@ namespace sogl {
 			return !(*this == other);
 		}
 	};
-
-#ifdef SOGL_EXPORT
-	matrix3f matrix3f::IDENTITY = matrix3f();
-#endif
 }

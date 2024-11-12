@@ -6,8 +6,8 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-#include <mathutil.h>
-#include <color.inl>
+#include "color.hpp"
+#include "../transform/mathutil.hpp"
 
 namespace sogl {
 	struct SOGL_API color32 {

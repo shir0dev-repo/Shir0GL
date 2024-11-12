@@ -1,4 +1,0 @@
-#pragma once
-
-#include "color.inl"
-#include "color32.inl"

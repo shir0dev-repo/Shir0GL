@@ -24,7 +24,7 @@ namespace sogl {
 		
 		// Constructs a transform which has a translation of position, and no rotation.
 		inline transform(const vec3f& position) : transform() {
-			m_transformationMatrix.setTranslation(position);
+			m_transformationMatrix.setPosition(position);
 		}
 
 		// Constructs a transform which has a translation of position, and a rotation of rotation.
@@ -40,6 +40,8 @@ namespace sogl {
 		// Copies the transformation matrix
 		inline transform& operator=(const transform& other) {
 			this->m_transformationMatrix = other.m_transformationMatrix;
+
+			return *this;
 		}
 
 		// Returns this transform's transformation matrix.
@@ -54,7 +56,7 @@ namespace sogl {
 
 		// Sets this transform's position.
 		inline void setPosition(const vec3f& position) {
-			m_transformationMatrix.setTranslation(position);
+			m_transformationMatrix.setPosition(position);
 		}
 
 		// Translates this transform by the delta position.

@@ -157,24 +157,34 @@
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\freeglut;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\freeglut\freeglut.h" />
+    <ClInclude Include="include\freeglut\freeglut_ext.h" />
+    <ClInclude Include="include\freeglut\freeglut_std.h" />
+    <ClInclude Include="include\freeglut\glut.h" />
+    <ClInclude Include="include\glew\glew.h" />
+    <ClInclude Include="include\glew\glxew.h" />
+    <ClInclude Include="include\glew\wglew.h" />
+    <ClInclude Include="include\glfw\glfw3.h" />
+    <ClInclude Include="include\glfw\glfw3native.h" />
+    <ClInclude Include="rendering\camera.hpp" />
+    <ClInclude Include="rendering\cameraData.hpp" />
+    <ClInclude Include="rendering\glfwApp.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\glfwApp.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\statics.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\sogl\camera" />
-    <None Include="include\sogl\color" />
-    <None Include="include\sogl\math\common" />
-    <None Include="include\sogl\matrix" />
-    <None Include="include\sogl\transform" />
-    <None Include="include\sogl\vector" />
-    <None Include="rendering\color.inl" />
-    <None Include="rendering\color32.inl" />
+    <None Include="lib\GLFW\glfw3.dll" />
+    <None Include="rendering\color.hpp" />
+    <None Include="rendering\color32.hpp" />
     <None Include="transform\mathutil.hpp" />
     <None Include="transform\matrix3f.hpp" />
     <None Include="transform\matrix4f.hpp" />
@@ -182,6 +192,13 @@
     <None Include="transform\transform.hpp" />
     <None Include="transform\vec3f.hpp" />
     <None Include="transform\vec4f.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\freeglut\freeglut.lib" />
+    <Library Include="lib\GLEW\glew32.lib" />
+    <Library Include="lib\GLEW\glew32s.lib" />
+    <Library Include="lib\GLFW\glfw3.lib" />
+    <Library Include="lib\GLFW\glfw3dll.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

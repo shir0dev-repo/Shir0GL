@@ -6,8 +6,8 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
+#include "color32.hpp"
 #include <algorithm>
-#include <color32.inl>
 
 namespace sogl {
 
