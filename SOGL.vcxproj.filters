@@ -42,63 +42,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\vec4f.h">
-      <Filter>Header Files\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="include\quat.h">
-      <Filter>Header Files\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vec3f.h">
-      <Filter>Header Files\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="include\matrix4f.h">
-      <Filter>Header Files\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="include\matrix3f.h">
-      <Filter>Header Files\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="include\color.h">
-      <Filter>Header Files\Color</Filter>
-    </ClInclude>
-    <ClInclude Include="include\color32.h">
-      <Filter>Header Files\Color</Filter>
-    </ClInclude>
-    <ClInclude Include="include\mathutil.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vec4f.cpp">
-      <Filter>Source Files\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vec3f.cpp">
-      <Filter>Source Files\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\quat.cpp">
-      <Filter>Source Files\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\matrix4f.cpp">
-      <Filter>Source Files\Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="src\matrix3f.cpp">
-      <Filter>Source Files\Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="src\color.cpp">
-      <Filter>Source Files\Color</Filter>
-    </ClCompile>
-    <ClCompile Include="src\color32.cpp">
-      <Filter>Source Files\Color</Filter>
-    </ClCompile>
-    <ClCompile Include="src\transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\camera.cpp">
@@ -112,5 +61,32 @@
     <None Include="include\sogl\matrix" />
     <None Include="include\sogl\color" />
     <None Include="include\sogl\transform" />
+    <None Include="transform\vec4f.hpp">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="rendering\color.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="rendering\color32.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="transform\mathutil.hpp">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="transform\matrix3f.hpp">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="transform\matrix4f.hpp">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="transform\quat.hpp">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="transform\transform.hpp">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="transform\vec3f.hpp">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -6,11 +6,11 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-#include "vec3f.inl"
-#include "vec4f.inl"
-#include "quat.inl"
-#include "matrix3f.h"
-#include "matrix4f.h"
+#include "vec3f.hpp"
+#include "vec4f.hpp"
+#include "quat.hpp"
+#include "matrix3f.hpp"
+#include "matrix4f.hpp"
 
 namespace sogl {
 	// The transform struct currently does not support scaling.

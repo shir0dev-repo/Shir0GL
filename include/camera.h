@@ -6,8 +6,8 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-#include "transform.h"
-#include "matrix4f.h"
+#include "transform.inl"
+#include "matrix4f.inl"
 
 namespace sogl {
 	struct SOGL_API camera {

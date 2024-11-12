@@ -161,27 +161,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h" />
-    <ClInclude Include="include\color.h" />
-    <ClInclude Include="include\color32.h" />
-    <ClInclude Include="include\mathutil.h" />
-    <ClInclude Include="include\matrix3f.h" />
-    <ClInclude Include="include\matrix4f.h" />
-    <ClInclude Include="include\quat.h" />
-    <ClInclude Include="include\transform.h" />
-    <ClInclude Include="include\vec3f.h" />
-    <ClInclude Include="include\vec4f.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
-    <ClCompile Include="src\color.cpp" />
-    <ClCompile Include="src\color32.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\matrix3f.cpp" />
-    <ClCompile Include="src\matrix4f.cpp" />
-    <ClCompile Include="src\quat.cpp" />
-    <ClCompile Include="src\transform.cpp" />
-    <ClCompile Include="src\vec3f.cpp" />
-    <ClCompile Include="src\vec4f.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\sogl\camera" />
@@ -190,6 +173,15 @@
     <None Include="include\sogl\matrix" />
     <None Include="include\sogl\transform" />
     <None Include="include\sogl\vector" />
+    <None Include="rendering\color.inl" />
+    <None Include="rendering\color32.inl" />
+    <None Include="transform\mathutil.hpp" />
+    <None Include="transform\matrix3f.hpp" />
+    <None Include="transform\matrix4f.hpp" />
+    <None Include="transform\quat.hpp" />
+    <None Include="transform\transform.hpp" />
+    <None Include="transform\vec3f.hpp" />
+    <None Include="transform\vec4f.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

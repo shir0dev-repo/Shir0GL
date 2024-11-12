@@ -8,9 +8,9 @@
 
 #include <algorithm>
 #include <math.h>
-#include <matrix3f.h>
-#include <mathutil.h>
-#include <vec3f.inl>
+#include "matrix3f.hpp"
+#include "mathutil.hpp"
+#include "vec3f.hpp"
 
 namespace sogl {
 	// 4D vector that handles rotations.

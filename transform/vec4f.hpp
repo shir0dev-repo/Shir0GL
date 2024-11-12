@@ -6,7 +6,7 @@
 #define SOGL_API __declspec(dllimport)
 #endif
 
-#include "vec3f.inl"
+#include "vec3f.hpp"
 
 namespace sogl {
 	struct SOGL_API vec4f {		

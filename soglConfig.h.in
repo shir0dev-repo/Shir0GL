@@ -1,0 +1,2 @@
+#define sogl_VERSION_MAJOR @sogl_VERSION_MAJOR@
+#define sogl_VERSION_MINOR @sogl_VERSION_MINOR@
