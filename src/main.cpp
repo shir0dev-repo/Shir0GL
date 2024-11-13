@@ -1,10 +1,14 @@
+#include <iostream>
 #include "../rendering/glfwApp.hpp"
 #include "../rendering/camera.hpp"
+#include "../rendering/mesh/mesh.hpp"
 
 using namespace sogl;
 
 int main() {
-	glfwApp app;
+	mesh m("assets/mesh/head.obj");
 
-	app.enter();
+	std::cin.get();
+
+	return 0;
 }

@@ -174,11 +174,20 @@
     <ClInclude Include="rendering\camera.hpp" />
     <ClInclude Include="rendering\cameraData.hpp" />
     <ClInclude Include="rendering\glfwApp.hpp" />
+    <ClInclude Include="rendering\mesh\mesh.hpp" />
+    <ClInclude Include="rendering\mesh\vertexArrayObject.hpp" />
+    <ClInclude Include="rendering\mesh\vertexBufferObject.hpp" />
+    <ClInclude Include="rendering\renderable.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="rendering\mesh\vertexAttribute.hpp" />
+    <ClCompile Include="src\rendering\camera.cpp" />
     <ClCompile Include="src\glfwApp.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\rendering\mesh\mesh.cpp" />
+    <ClCompile Include="src\rendering\mesh\vertexArrayObject.cpp" />
+    <ClCompile Include="src\rendering\mesh\vertexAttribute.cpp" />
+    <ClCompile Include="src\rendering\mesh\vertexBufferObject.cpp" />
     <ClCompile Include="src\statics.cpp" />
   </ItemGroup>
   <ItemGroup>

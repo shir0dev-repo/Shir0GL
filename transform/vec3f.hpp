@@ -7,6 +7,7 @@
 #endif
 
 #include <math.h>
+#include <cassert>
 
 namespace sogl {
 	struct SOGL_API vec3f {	
@@ -80,6 +81,14 @@ namespace sogl {
 
 			return c;
 		}
+
+		inline float& operator[](const unsigned int& index) {
+			assert(index < 3);
+			if (index == 0) return x;
+			if (index == 1) return y;
+			if (index == 2) return z;
+		}
+
 
 		inline vec3f operator+(const vec3f& v) const {
 			vec3f v1(*this);
