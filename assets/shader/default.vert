@@ -4,17 +4,17 @@ layout (location = 0) in vec3 aPosition;
 layout (location = 1) in vec2 aTcoord;
 layout (location = 2) in vec3 aNormal;
 
-uniform mat4 u_mvp;
-uniform mat4 u_world;
+layout (location = 3) uniform mat4 u_projectionMatrix;
+layout (location = 7) uniform mat4 u_viewMatrix;
+layout (location = 11) uniform mat4 u_transformationMatrix;
 
-out vec3 position;
-out vec3 normal;
 out vec2 tcoord;
+out vec3 normal;
 
 void main() {
-	position = (u_world * vec4(aPosition, 1.0)).xyz;
+	vec4 worldPosition = u_transformationMatrix * vec4(aPosition.xyz, 1.0f);
+	gl_Position = u_projectionMatrix * u_viewMatrix * worldPosition;
+	
 	normal = aNormal;
 	tcoord = aTcoord;
-
-	gl_Position = u_mvp * vec4(aPosition, 1.0);
 }
