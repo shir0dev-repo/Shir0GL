@@ -106,6 +106,7 @@ namespace sogl {
 		// Copies values of quaternion q.
 		inline quat(const quat& q) {
 			*this = q;
+			normalize();
 		}
 		
 		// Assigns this quaternion's components from the components of q.
@@ -115,6 +116,7 @@ namespace sogl {
 			this->z = q.z;
 			this->w = q.w;
 
+			normalize();
 			return *this;
 		}
 
@@ -140,22 +142,21 @@ namespace sogl {
 
 		// Normalizes this quaternion.
 		inline void normalize() {
-			float inv_l = 1.0f / length();
-			x *= inv_l;
-			y *= inv_l;
-			z *= inv_l;
-			w *= inv_l;
+			float l = length();
+			if (l == 0)
+				return;
+
+			float inv_l = 1.0f / l;
+			x = x / l;
+			y = y / l;
+			z = z / l;
+			w = w / l;
 		}
 
 		// Returns a normalized version of this quaternion.
 		inline quat normalized() const {
 			quat q(*this);
-
-			float inv_l = 1.0f / length();
-			q.x *= inv_l;
-			q.y *= inv_l;
-			q.z *= inv_l;
-			q.w *= inv_l;
+			q.normalize();
 
 			return q;
 		}
@@ -177,7 +178,11 @@ namespace sogl {
 		inline quat inverse() const {
 			quat q = conjugate();
 
-			float inv_lSqr = 1.0f / lengthSquared();
+			float l = q.lengthSquared();
+			if (l <= 0)
+				return q;
+
+			float inv_lSqr = 1.0f / l;
 			q.x *= inv_lSqr;
 			q.y *= inv_lSqr;
 			q.z *= inv_lSqr;
@@ -188,29 +193,44 @@ namespace sogl {
 
 		// Returns a matrix3f specifying the rotation of this quaternion.
 		inline matrix3f rotationMatrix() const {
-			float xx = x * x;
-			float xy = x * y;
-			float xz = x * z;
-			float xw = x * w;
-			float yy = y * y;
-			float yz = y * z;
-			float yw = y * w;
-			float zz = z * z;
-			float zw = z * w;
+			quat q = this->normalized();
+
+			float xx = q.x * q.x;
+			float xy = q.x * q.y;
+			float xz = q.x * q.z;
+			float xw = q.x * q.w;
+			float yy = q.y * q.y;
+			float yz = q.y * q.z;
+			float yw = q.y * q.w;
+			float zz = q.z * q.z;
+			float zw = q.z * q.w;
+			float ww = q.w * q.w;
 
 			matrix3f m;
-			m(0, 0) = 1.0f - 2.0f * (yy - zz);
-			m(0, 1) = 2.0f * (xy + zw);
-			m(0, 2) = 2.0f * (xz - yw);
+			m(0, 0) = 2 * (ww + xx) - 1; 
+			m(0, 1) = 2 * (xy + zw);
+			m(0, 2) = 2 * (xz - yw);
 
-			m(1, 0) = 2.0f * (xy - zw);
-			m(1, 1) = 1.0f - 2.0f * (xx - zz);
-			m(1, 2) = 2.0f * (yz + xw);
+			m(1, 0) = 2 * (xy - zw);
+			m(1, 1) = 2 * (ww + yy) - 1;
+			m(1, 2) = 2 * (yz + xw);
 
-			m(2, 0) = 2.0f * (xz + yw);
-			m(2, 1) = 2.0f * (yz - xw);
-			m(2, 2) = 1.0f - 2.0f * (xx - yy);
+			m(2, 0) = 2 * (xz + yw);
+			m(2, 1) = 2 * (yz - xw);
+			m(2, 2) = 2 * (ww + zz) - 1;
 
+			//m(0, 0) = 1.0f - 2.0f * (yy -/**/ zz);
+			//m(0, 1) =		 2.0f * (xy + zw);
+			//m(0, 2) =		 2.0f * (xz -/**/ yw);
+
+			//m(1, 0) =		 2.0f * (xy -/**/ zw);
+			//m(1, 1) = 1.0f - 2.0f * (xx -/**/ zz);
+			//m(1, 2) =		 2.0f * (yz + xw);
+
+			//m(2, 0) =		 2.0f * (xz + yw);
+			//m(2, 1) =		 2.0f * (yz -/**/ xw);
+			//m(2, 2) = 1.0f - 2.0f * (xx -/**/ yy);
+			
 			return m;
 		}
 
@@ -274,27 +294,26 @@ namespace sogl {
 		inline quat operator*(const quat& other) const {
 			quat q1;
 
-			q1.x = x * other.w + w * other.x + y * other.z - z * other.y;
-			q1.y = y * other.w + w * other.y + z * other.x - x * other.z;
-			q1.z = z * other.w + w * other.z + x * other.y - y * other.x;
-			q1.w = w * other.w - x * other.x - y * other.y - z * other.z;
+			q1.w = (other.w * w) - (other.x * x) - (other.y * y) - (other.z * z);
+			q1.x = (other.w * x) + (other.x * w) - (other.y * z) + (other.z * y);
+			q1.y = (other.w * y) + (other.x * z) + (other.y * w) - (other.z * x);
+			q1.z = (other.w * z) - (other.x * y) + (other.y * x) + (other.z * w);
 
-			//q1.normalize();
+			q1.normalize();
 			return q1;
 		}
 
 		// Post-multiplies the rotation other onto this quaternion.
 		inline quat& operator*=(const quat& other) {
-			x = x * other.w + w * other.x + y * other.z - z * other.y;
-			y = y * other.w + w * other.y + z * other.x - x * other.z;
-			z = z * other.w + w * other.z + x * other.y - y * other.x;
-			w = w * other.w - x * other.x - y * other.y - z * other.z;
-
+			*this = *this * other;
 			return *this;
 		}
 
 		// Returns a copy of v rotated by this quaternion.
 		inline vec3f operator*(const vec3f& v) const {
+			float length = v.length();
+			if (length == 0) return v;
+
 			// create a "pure" quaternion (copy v and set w to 0)
 			quat pure;
 			pure.x = v.x;
@@ -306,7 +325,7 @@ namespace sogl {
 			// see https://math.stackexchange.com/q/40169 for mathematical explanation
 			quat result = this->conjugate() * pure * *this;
 
-			return vec3f(result.x, result.y, result.z);
+			return vec3f(result.x, result.y, result.z) * length;
 		}
 
 		// Returns true if both quaternions result in the same rotation.

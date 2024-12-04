@@ -2,36 +2,39 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include <sogl/database.hpp>
+#include <sogl/hashTable.hpp>
 #include <sogl/transform/transform.hpp>
 #include <sogl/rendering/glUtilities.hpp>
 #include <sogl/rendering/shaderUtilities.hpp>
+#include <sogl/rendering/material.hpp>
 #include <sogl/rendering/texture.hpp>
 #include <sogl/rendering/camera.hpp>
-#include <sogl/rendering/vertexArrayObject.hpp>
-#include <sogl/rendering/renderable.hpp>
 #include <sogl/rendering/mesh.hpp>
-#include <sogl/rendering/shaderProgram.hpp>
+#include <sogl/rendering/gl/vertexArrayObject.hpp>
+#include <sogl/rendering/gl/shaderProgram.hpp>
+#include <sogl/rendering/renderable.hpp>
+#include <sogl/rendering/factories/uniformBufferFactory.hpp>
 
 namespace sogl {
-	static std::vector<renderable> Renderables;
-
-	renderable::renderable(const mesh& mesh, const char* shaderName) : vertexAttributes(mesh) {
+	renderable::renderable(const mesh& mesh, material* mat) : vertexAttributes(mesh) {
 		this->boundTexture = nullptr;
-		this->shader = findShader(shaderName);
+		this->currentMaterial = mat;
 		this->transform = sogl::transform();
 	}
 
-	void renderable::render() {
-		camera* cam = getRenderCamera();
-		shader->uploadUniformMatrix4f(cam->projectionMatrix, false, "u_projectionMatrix");
-		shader->uploadUniformMatrix4f(cam->viewMatrix, false, "u_viewMatrix");
-		shader->uploadUniformMatrix4f(transform.getTransformationMatrix(), false, "u_transformationMatrix");
-
-		if (boundTexture) {
-			boundTexture->bind();
+	renderable::~renderable() {
+		if (boundTexture != nullptr) {
+			delete boundTexture;
 		}
-		
+
+		boundTexture = nullptr;
+	}
+
+	void renderable::render() const {
+		currentMaterial->bind();
+		currentMaterial->prepare();
+		currentMaterial->uploadUniformData("u_transformationMatrix", transform.getTransformationMatrix().getPointer());
+
 		vertexAttributes.bind();
 		int count = vertexAttributes.pointCount;
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (void*)0);
@@ -41,7 +44,7 @@ namespace sogl {
 			boundTexture->unbind();
 		}
 
-		shader->stop();
+		currentMaterial->unbind();
 	}
 
 	void renderable::addTexture(const std::string& filePath) {
@@ -53,7 +56,6 @@ namespace sogl {
 	}
 
 	void renderable::renderAll() {
-		for (renderable r : Renderables)
-			r.render();
+
 	}
 }

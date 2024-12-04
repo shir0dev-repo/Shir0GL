@@ -22,6 +22,7 @@ namespace sogl {
 		vertexBufferObject texCoords;
 		vertexBufferObject normals;
 		vertexBufferObject indices;
+
 		unsigned int ID;
 		unsigned int pointCount;
 

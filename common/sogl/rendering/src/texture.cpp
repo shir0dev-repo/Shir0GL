@@ -8,6 +8,10 @@
 #include <sogl/rendering/texture.hpp>
 
 namespace sogl {
+	texture::texture() {
+		
+	}
+
 	texture::texture(const char* filePath) {
 		glGenTextures(1, &this->ID);
 		glBindTexture(GL_TEXTURE_2D, this->ID);

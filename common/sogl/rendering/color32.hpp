@@ -200,5 +200,15 @@ namespace sogl {
 
 			return *this;
 		}
+
+		inline explicit operator color() const {
+			color c;
+			c.r = this->r / 255.0f;
+			c.g = this->g / 255.0f;
+			c.b = this->b / 255.0f;
+			c.a = this->a / 255.0f;
+
+			return c;
+		}
 	};
 }

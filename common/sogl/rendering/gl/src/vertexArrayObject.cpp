@@ -4,8 +4,7 @@
 #include <iostream>
 
 #include <sogl/rendering/mesh.hpp>
-#include <sogl/rendering/GLError.hpp>
-#include <sogl/rendering/vertexArrayObject.hpp>
+#include <sogl/rendering/gl/vertexArrayObject.hpp>
 
 namespace sogl {
 	vertexBufferObject::vertexBufferObject() : size(0), target(0), ID(0) {}
@@ -32,20 +31,20 @@ namespace sogl {
 
 		const unsigned int target = GL_ARRAY_BUFFER;
 
-		positions = vertexBufferObject(mesh.positionByteSize, mesh.positions, target);
+		positions = vertexBufferObject(mesh.size, mesh.positions, target);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		positions.unbind();
 
-		texCoords = vertexBufferObject(mesh.texCoordByteSize, mesh.texCoords, target);
+		texCoords = vertexBufferObject(mesh.size, mesh.texCoords, target);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		texCoords.unbind();
 
-		normals = vertexBufferObject(mesh.normalByteSize, mesh.normals, target); 
+		normals = vertexBufferObject(mesh.size, mesh.normals, target);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		normals.unbind();
 
-		this->pointCount = mesh.indicesByteSize / sizeof(unsigned int);
-		indices = vertexBufferObject(mesh.indicesByteSize, mesh.indices, GL_ELEMENT_ARRAY_BUFFER);
+		this->pointCount = mesh.indicesSize / sizeof(unsigned int);
+		indices = vertexBufferObject(mesh.indicesSize, mesh.indices, GL_ELEMENT_ARRAY_BUFFER);
 		indices.unbind();
 
 		glBindVertexArray(0);

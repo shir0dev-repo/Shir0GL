@@ -18,9 +18,9 @@ static void GLFWDefaultErrorCallback(int error, const char* msg) {
 		std::to_string(error).c_str(), msg);
 }
 
- 
-
 namespace sogl {
+	static InstanceData CurrentInstance;
+
 	GLFWwindow* glInitialize(const int& windowHeight, const int& windowWidth) {
 		std::cout << "Initializing GLFW...";
 		if (glfwInit() == GLFW_FALSE) {
@@ -57,41 +57,63 @@ namespace sogl {
 		}
 		std::cout << "\nGLFW window handle created.\n";
 
-		std::cout << "Setting up callbacks...";
+		std::cout << "Setting up GLFW callbacks...";
 		glfwSetKeyCallback(CurrentInstance.window, glfwKeyCB);
 		glfwSetCursorPosCallback(CurrentInstance.window, glfwMouseCB);
+		glfwSetWindowSizeCallback(CurrentInstance.window, glfwResizeCB);
 		std::cout << "\nGLFW callbacks initialized.\n";
-
-		CurrentInstance.windowWidth = windowWidth;
-		CurrentInstance.windowHeight = windowHeight;
-		CurrentInstance.aspectRatio = windowWidth / windowHeight;
-		
-		CurrentInstance.renderCamera = new camera();
-		CurrentInstance.renderCamera->screenWidth = windowWidth;
-		CurrentInstance.renderCamera->screenHeight = windowHeight;
-		CurrentInstance.renderCamera->aspectRatio = CurrentInstance.aspectRatio;
-		CurrentInstance.renderCamera->init();
 
 		glfwSetWindowPos(CurrentInstance.window, 100, 100);
 		glfwMakeContextCurrent(CurrentInstance.window);
-		
+
 		std::cout << "Initializing GLEW...";
 		glewInit();
 		std::cout << "\nGLEW initialized.\n";
+
+		glEnable(GL_DEBUG_OUTPUT);
+		glDebugMessageCallback(glDebugErrorCallback, nullptr);
 
 		int err = glGetError();
 		if (err != GL_FALSE) {
 			std::cout << "ERROR: " << err << '\n';
 			glfwTerminate();
 			std::cout << "GLFW has been terminated.\n";
-			assert(false);
+			exit(-1);
 		}
 
+		CurrentInstance.windowWidth = windowWidth;
+		CurrentInstance.windowHeight = windowHeight;
+		CurrentInstance.aspectRatio = windowWidth / windowHeight;
+		
+		CurrentInstance.moveSpeed = 1.0f;
+
+		CurrentInstance.mouseSensitivityX = 20.0f;
+		CurrentInstance.mouseSensitivityY = 20.0f;
+
+		CurrentInstance.renderCamera = new camera();
+		CurrentInstance.renderCamera->screenWidth = windowWidth;
+		CurrentInstance.renderCamera->screenHeight = windowHeight;
+		CurrentInstance.renderCamera->aspectRatio = CurrentInstance.aspectRatio;
+		CurrentInstance.renderCamera->nearPlane = 0.03f;
+		CurrentInstance.renderCamera->farPlane = 100.0f;
+		CurrentInstance.renderCamera->fov = 60.0f;
+		CurrentInstance.renderCamera->init();
+
 		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LEQUAL);
+
 		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);
 
 		return CurrentInstance.window;
+	}
+
+	void glStartFrame() {
+		glfwGetFramebufferSize(CurrentInstance.window, &CurrentInstance.windowWidth, &CurrentInstance.windowHeight);
+		CurrentInstance.aspectRatio = (float)CurrentInstance.windowWidth / CurrentInstance.windowHeight;
+
+		glClearColor(0.07, 0.1, 0.2, 1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void glPollEvents() {
@@ -99,36 +121,54 @@ namespace sogl {
 		glfwPollEvents();
 
 		CurrentInstance.lastTime = CurrentInstance.time;
+		CurrentInstance.time = glfwGetTime();
+		CurrentInstance.deltaTime = CurrentInstance.time - CurrentInstance.lastTime;
+
+		CurrentInstance.lastMousePosX = CurrentInstance.mousePosX;
+		CurrentInstance.lastMousePosY = CurrentInstance.mousePosY;
+		glfwGetCursorPos(CurrentInstance.window, &CurrentInstance.mousePosX, &CurrentInstance.mousePosY);
+		CurrentInstance.mouseDeltaX = CurrentInstance.lastMousePosX - CurrentInstance.mousePosX;
+		CurrentInstance.mouseDeltaY = CurrentInstance.lastMousePosY - CurrentInstance.mousePosY;
+
+		if (CurrentInstance.captureCursor)
+			glfwSetInputMode(CurrentInstance.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		else
+			glfwSetInputMode(CurrentInstance.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
 	vec3f glConsumeInput() {
 		vec3f input;
 
-		if (CurrentInstance.gKeysCurr[GLFW_KEY_W] == GLFW_PRESS) {
+		if (getKeyDown(GLFW_KEY_W)) {
 			input.z = 1;
 		}
-		else if (CurrentInstance.gKeysCurr[GLFW_KEY_S] == GLFW_PRESS) {
+		else if (getKeyDown(GLFW_KEY_S)) {
 			input.z = -1;
 		}
 
-		if (CurrentInstance.gKeysCurr[GLFW_KEY_D] == GLFW_PRESS) {
+		if (getKeyDown(GLFW_KEY_D)) {
 			input.x = 1;
 		}
-		else if (CurrentInstance.gKeysCurr[GLFW_KEY_A] == GLFW_PRESS) {
+		else if (getKeyDown(GLFW_KEY_A)) {
 			input.x = -1;
 		}
 
-		if (CurrentInstance.gKeysCurr[GLFW_KEY_SPACE] == GLFW_PRESS) {
+		if (getKeyDown(GLFW_KEY_SPACE)) {
 			input.y = 1;
 		}
-		else if (CurrentInstance.gKeysCurr[GLFW_KEY_LEFT_SHIFT] == GLFW_PRESS) {
+		else if (getKeyDown(GLFW_KEY_LEFT_SHIFT)) {
 			input.y = -1;
 		}
 
 		return input;
 	}
 
+	void glAddTerminationFunction(GLTerminateFunction func) {
+		CurrentInstance.GLTerminationFunctions.push_back(func);
+	}
+
 	void glTerminate() {
+		std::cout << "Cleaning up resources...\n";
 		if (!CurrentInstance.GLTerminationFunctions.empty()) {
 			for (GLTerminateFunction func : CurrentInstance.GLTerminationFunctions) {
 				func();
@@ -140,10 +180,6 @@ namespace sogl {
 		glfwTerminate();
 	}
 
-	void glAddTerminationFunction(GLTerminateFunction func) {
-		CurrentInstance.GLTerminationFunctions.push_back(func);
-	}
-
 	GLFWwindow* getWindow() {
 		return CurrentInstance.window;
 	}
@@ -152,24 +188,55 @@ namespace sogl {
 		return CurrentInstance.renderCamera;
 	}
 
-	int windowWidth() {
+	void getMoveSpeed(float* moveSpeed) {
+		*moveSpeed = CurrentInstance.moveSpeed;
+	}
+
+	void setMoveSpeed(const float moveSpeed) {
+		CurrentInstance.moveSpeed = moveSpeed;
+	}
+
+	void getMouseSensitivity(float* sensitivityX, float* sensitivityY) {
+		*sensitivityX = CurrentInstance.mouseSensitivityX;
+		*sensitivityY = CurrentInstance.mouseSensitivityY;
+	}
+
+	void setMouseSensitivity(const float sensitivityX, const float sensitivityY) {
+		CurrentInstance.mouseSensitivityX = sensitivityX;
+		CurrentInstance.mouseSensitivityY = sensitivityY;
+
+	}
+
+	int getWindowWidth() {
 		return CurrentInstance.windowWidth;
 	}
 
-	int windowHeight() {
+	int getWindowHeight() {
 		return CurrentInstance.windowHeight;
 	}
 
-	float aspectRatio() {
+	float getAspectRatio() {
 		return CurrentInstance.aspectRatio;
 	}
 
-	float deltaTime() {
+	float getTime() {
+		return CurrentInstance.time;
+	}
+
+	float getDeltaTime() {
 		return CurrentInstance.deltaTime;
+	}
+
+	bool isCursorLocked() {
+		return CurrentInstance.captureCursor;
 	}
 
 	void setCaptureCursor(const bool& capture) {
 		CurrentInstance.captureCursor = capture;
+	}
+
+	void toggleCaptureCursor() {
+		CurrentInstance.captureCursor = !CurrentInstance.captureCursor;
 	}
 
 	void getCursorPosition(double* xPos, double* yPos) {
@@ -177,21 +244,12 @@ namespace sogl {
 		*yPos = CurrentInstance.mousePosY / (double)CurrentInstance.windowHeight;
 	}
 
-	void getCursorDelta(double* xDelta, double* yDelta) {
-		*xDelta = CurrentInstance.mouseDeltaX / (double)CurrentInstance.windowWidth;
-		*yDelta = CurrentInstance.mouseDeltaY / (double)CurrentInstance.windowHeight;
-	}
+	void consumeCursorDelta(float* xDelta, float* yDelta) {
+		*xDelta = CurrentInstance.mouseDeltaX; /// CurrentInstance.windowWidth;
+		*yDelta = CurrentInstance.mouseDeltaY; /// CurrentInstance.windowHeight;
 
-	void glStartFrame() {
-		CurrentInstance.time = glfwGetTime();
-		CurrentInstance.deltaTime = CurrentInstance.time - CurrentInstance.lastTime;
-
-		GLFWwindow* window = CurrentInstance.window;
-		glfwGetFramebufferSize(window, &CurrentInstance.windowWidth, &CurrentInstance.windowHeight); 
-		CurrentInstance.aspectRatio = (float)CurrentInstance.windowWidth / CurrentInstance.windowHeight;
-		
-		glClearColor(0, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		/*CurrentInstance.mouseDeltaX = 0.0;
+		CurrentInstance.mouseDeltaY = 0.0;*/
 	}
 	
 	bool getKeyDown(int key) {
@@ -207,7 +265,76 @@ namespace sogl {
 	}
 
 	void glErrorCB(const unsigned int& code) {
+		
+		switch (code) {
+			
+		}
+
+		
+		const char* error_desc;
+		switch (code) {
+			// useless errors / warnings go here
+			case GL_NONE:
+				return;
+
+
+			case GL_INVALID_ENUM:
+				error_desc = "INVALID ENUM";
+				break;
+			case GL_INVALID_VALUE:
+				error_desc = "INVALID VALUE";
+				break;
+			case GL_INVALID_OPERATION:
+				error_desc = "INVALID OPERATION";
+				break;
+			case GL_STACK_OVERFLOW:
+				error_desc = "STACK OVERFLOW";
+				break;
+			case GL_STACK_UNDERFLOW:
+				error_desc = "STACK UNDERFLOW";
+				break;
+			case GL_OUT_OF_MEMORY:
+				error_desc = "OUT OF MEMORY";
+			case GL_INVALID_FRAMEBUFFER_OPERATION:
+				error_desc = "INVALID FRAME BUFFER OPERATION";
+			default:
+				error_desc = "UNDEFINED ERROR";
+		}
 		std::cout << "[ERROR " << std::to_string(code) << "]\n";
+		std::cout << error_desc << '\n';
+	}
+
+	void glDebugErrorCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam) {
+		switch (id) {
+			case 131185:
+				return;
+			default:
+				break;
+		}
+
+		std::cout << "[" << severity << " GLERROR (" << type << ")" << id << "]:\n";
+		for (int i = 0; i < length; i++) {
+			std::cout << message[i];
+		}
+	}
+
+	const char* glGetNamedType(const uint32_t type) {
+		switch (type) {
+			case (GL_FLOAT):
+				return "GL_FLOAT";
+			case (GL_INT):
+				return "GL_INT";
+			case (GL_FLOAT_VEC3):
+				return "GL_FLOAT_VEC3";
+			case (GL_FLOAT_VEC4):
+				return "GL_FLOAT_VEC4";
+			case (GL_FLOAT_MAT3):
+				return "GL_FLOAT_MAT3";
+			case (GL_FLOAT_MAT4):
+					return "GL_FLOAT_MAT4";
+			default:
+				return "SOGL_UNSUPPORTED_TYPE";
+		}
 	}
 
 	static void glfwKeyCB(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -222,15 +349,13 @@ namespace sogl {
 	}
 
 	static void glfwMouseCB(GLFWwindow* window, double xPos, double yPos) {
-		CurrentInstance.mouseDeltaX = CurrentInstance.mousePosX - xPos;
-		CurrentInstance.mouseDeltaY = CurrentInstance.mousePosY - yPos;
+		
+	}
 
-		CurrentInstance.mousePosX = xPos;
-		CurrentInstance.mousePosY = yPos;
-
-		if (CurrentInstance.captureCursor)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		else
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	static void glfwResizeCB(GLFWwindow* window, int width, int height) {
+		CurrentInstance.renderCamera->screenWidth = width;
+		CurrentInstance.renderCamera->screenHeight = height;
+		CurrentInstance.renderCamera->aspectRatio = width / (float)height;
+		CurrentInstance.renderCamera->regenerateProjectionMatrix();
 	}
 }

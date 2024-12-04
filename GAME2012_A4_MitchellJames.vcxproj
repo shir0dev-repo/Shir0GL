@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common\main.cpp" />
+    <ClCompile Include="common\sogl\rendering\factories\src\materialFactory.cpp" />
+    <ClCompile Include="common\sogl\rendering\factories\src\textureFactory.cpp" />
+    <ClCompile Include="common\sogl\rendering\gl\src\uniformBufferObject.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\camera.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\color.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\glUtilities.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\light.cpp" />
+    <ClCompile Include="common\sogl\rendering\factories\src\lightFactory.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\material.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\mesh.cpp" />
+    <ClCompile Include="common\sogl\rendering\factories\src\meshFactory.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\renderable.cpp" />
+    <ClCompile Include="common\sogl\rendering\factories\src\shaderFactory.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\shaderProgram.cpp" />
+    <ClCompile Include="common\sogl\rendering\gl\src\shaderUtilities.cpp" />
+    <ClCompile Include="common\sogl\rendering\src\texture.cpp" />
+    <ClCompile Include="common\sogl\rendering\gl\src\vertexArrayObject.cpp" />
+    <ClCompile Include="common\sogl\rendering\factories\src\uniformBufferFactory.cpp" />
+    <ClCompile Include="common\sogl\transform\src\matrix.cpp" />
+    <ClCompile Include="common\sogl\transform\src\vectors.cpp" />
+    <ClCompile Include="common\stbi\stb_image.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common\GLEW\glew.h" />
+    <ClInclude Include="common\GLEW\glxew.h" />
+    <ClInclude Include="common\GLEW\wglew.h" />
+    <ClInclude Include="common\GLFW\glfw3.h" />
+    <ClInclude Include="common\GLFW\glfw3native.h" />
+    <ClInclude Include="common\sogl\linkedList.hpp" />
+    <ClInclude Include="common\sogl\hashTable.hpp" />
+    <ClInclude Include="common\sogl\mathutil.hpp" />
+    <ClInclude Include="common\sogl\rendering\camera.hpp" />
+    <ClInclude Include="common\sogl\rendering\color.hpp" />
+    <ClInclude Include="common\sogl\rendering\color32.hpp" />
+    <ClInclude Include="common\sogl\rendering\factories\materialFactory.hpp" />
+    <ClInclude Include="common\sogl\rendering\factories\textureFactory.hpp" />
+    <ClInclude Include="common\sogl\rendering\glUtilities.hpp" />
+    <ClInclude Include="common\sogl\rendering\gl\uniformBufferObject.hpp" />
+    <ClInclude Include="common\sogl\rendering\light.hpp" />
+    <ClInclude Include="common\sogl\rendering\factories\lightFactory.hpp" />
+    <ClInclude Include="common\sogl\rendering\material.hpp" />
+    <ClInclude Include="common\sogl\rendering\mesh.hpp" />
+    <ClInclude Include="common\sogl\rendering\renderable.hpp" />
+    <ClInclude Include="common\sogl\rendering\factories\shaderFactory.hpp" />
+    <ClInclude Include="common\sogl\rendering\gl\shaderProgram.hpp" />
+    <ClInclude Include="common\sogl\rendering\shaderUtilities.hpp" />
+    <ClInclude Include="common\sogl\rendering\texture.hpp" />
+    <ClInclude Include="common\sogl\rendering\gl\vertexArrayObject.hpp" />
+    <ClInclude Include="common\sogl\rendering\factories\uniformBufferFactory.hpp" />
+    <ClInclude Include="common\sogl\transform\matrix3f.hpp" />
+    <ClInclude Include="common\sogl\transform\matrix4f.hpp" />
+    <ClInclude Include="common\sogl\transform\matrixNf.hpp" />
+    <ClInclude Include="common\sogl\transform\quat.hpp" />
+    <ClInclude Include="common\sogl\transform\quatd.hpp" />
+    <ClInclude Include="common\sogl\transform\transform.hpp" />
+    <ClInclude Include="common\sogl\transform\vec3f.hpp" />
+    <ClInclude Include="common\sogl\transform\vec4f.hpp" />
+    <ClInclude Include="common\stbi\stb_image.h" />
+    <ClInclude Include="ext\GLEW\glew.h" />
+    <ClInclude Include="ext\GLEW\glxew.h" />
+    <ClInclude Include="ext\GLEW\wglew.h" />
+    <ClInclude Include="ext\GLFW\glfw3.h" />
+    <ClInclude Include="ext\GLFW\glfw3native.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ext\GLEW\glew32.lib" />
+    <Library Include="ext\GLEW\glew32s.lib" />
+    <Library Include="ext\GLFW\glfw3.lib" />
+    <Library Include="ext\GLFW\glfw3dll.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ext\GLFW\glfw3.dll" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{1b5c2d9a-6147-4fda-9179-3169596ab114}</ProjectGuid>
+    <RootNamespace>GAME2012_A4_MitchellJames</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>GAME2012_A5_MitchellJames</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
+    <EnableFuzzer>false</EnableFuzzer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\OpenGLwrappers\freeglut-MSVC-2.8.1-1.mp\freeglut\include;C:\OpenGLwrappers\glew-1.10.0-win32\glew-1.10.0\include;C:\OpenGLwrappers\glm-0.9.7.5\glm;C:\OpenGLwrappers\glfw-3.2.1.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;&lt;different options&gt;;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TranslateIncludes>false</TranslateIncludes>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\OpenGLwrappers\freeglut\lib\x64;C:\OpenGLwrappers\glew-2.1.0\lib\Release\x64;C:\OpenGLwrappers\glfw-3.3.2.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)common</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\OpenGLwrappers\freeglut\lib\x64;C:\OpenGLwrappers\glew-2.1.0\lib\Release\x64;C:\OpenGLwrappers\glfw-3.3.2.bin.WIN64\lib-vc2019;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;freeglut.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -2,6 +2,8 @@
 
 #include <math.h>
 #include <cassert>
+#include <iomanip>
+#include <iostream>
 
 namespace sogl {
 	struct vec3f {	
@@ -81,11 +83,18 @@ namespace sogl {
 		}
 
 		inline static vec3f project(const vec3f& in, const vec3f& onto) {
+			// scalar projection: 
+			// vProj = dot(in, onto) * onto
+			// ortho projection:
+			// vOProj = in - dot(in, onto) * onto
+
 			float d = dot(in, onto);
 			float lSqr = onto.lengthSquared();
-			float scalar = d / lSqr;
-			vec3f proj(onto * scalar);
-			return proj;
+			return onto * (d / lSqr);
+		}
+
+		inline static vec3f orthoProject(const vec3f& in, const vec3f& onto) {
+			return in - project(in, onto);
 		}
 
 		inline float& operator[](const unsigned int& index) {
@@ -166,12 +175,31 @@ namespace sogl {
 			return *this;
 		}
 
+		inline vec3f operator-() const {
+			vec3f v(*this);
+			v.x *= -1;
+			v.y *= -1;
+			v.z *= -1;
+
+			return v;
+		}
+
 		inline bool operator==(const vec3f& other) const {
 			return x == other.x && y == other.y && z == other.z;
 		}
 
 		inline bool operator!=(const vec3f& other) const {
 			return !(*this == other);
+		}
+
+		inline friend std::ostream& operator<<(std::ostream& os, const vec3f& v) {
+			os << std::fixed << std::setprecision(3) <<
+				"[V3]: " << '(' <<
+				"X: " << v.x << ", " <<
+				"Y: " << v.y << ", " <<
+				"Z: " << v.z << ')';
+
+			return os;
 		}
 	};
 }

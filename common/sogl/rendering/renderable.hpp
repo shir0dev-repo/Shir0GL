@@ -1,28 +1,30 @@
 #pragma once
 
 // REQUIREMENTS:
-#include <sogl/rendering/vertexArrayObject.hpp>
+#include <sogl/rendering/gl/vertexArrayObject.hpp>
 #include <sogl/transform/transform.hpp>
 
 namespace sogl {
 	struct texture;
 	struct mesh;
-	struct shaderProgram;
 	struct camera;
+	struct material;
 
 	struct renderable {
 		vertexArrayObject vertexAttributes;
 		transform transform;
-
-		shaderProgram* shader;
+		material* currentMaterial;
 		texture* boundTexture;
 
-		renderable(const mesh& mesh, const char* shaderID);
+		renderable(const mesh& mesh, material* mat);
 		~renderable();
-		
-		void render();
+		void render() const;
 		void addTexture(const std::string& filePath);
 
-		static void renderAll();		
+		static void renderAll();
 	};
+
+	namespace renderableManager {
+		
+	}
 }

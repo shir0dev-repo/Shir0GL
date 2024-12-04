@@ -2,7 +2,6 @@
 #include <sogl/rendering/color32.hpp>
 
 namespace sogl {
-#ifdef SOGL_EXPORT
 	color color::BLACK			= color(0.0f, 0.0f, 0.0f);
 	color color::RED			= color(1.0f, 0.0f, 0.0f);
 	color color::YELLOW			= color(1.0f, 1.0f, 0.0f);
@@ -20,5 +19,4 @@ namespace sogl {
 	color32 color32::BLUE		= color32(0, 0, 255);
 	color32 color32::MAGENTA	= color32(255, 0, 255);
 	color32 color32::WHITE		= color32(255, 255, 255);
-#endif
 }

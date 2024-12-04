@@ -63,6 +63,8 @@ namespace sogl {
 			g = c.g;
 			b = c.b;
 			a = c.a;
+
+			return *this;
 		}
 
 		// Interpolates linearly between color a and color a by a factor of t.

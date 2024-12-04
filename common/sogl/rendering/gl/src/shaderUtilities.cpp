@@ -8,56 +8,12 @@
 #include <string>
 #include <cassert>
 
-#include <sogl/rendering/shaderProgram.hpp>
+#include <sogl/rendering/gl/shaderProgram.hpp>
 #include <sogl/rendering/glUtilities.hpp>
 #include <sogl/rendering/shaderUtilities.hpp>
-#include <sogl/database.hpp>
 
 namespace sogl {
-	
-	void deleteShader(shaderProgram* shader) {
-		shader->glDelete();
-	}
-
-	static database<shaderProgram> LoadedShaders(4, &deleteShader);
-	
-	void terminateShaders() {
-		LoadedShaders.destroy();
-	}
-
-	int directoryLength() {
-		static int length = 0;
-		if (length == 0)
-			length = strlen(ShaderDirectory);
-
-		return length;
-	}
-
-	void addShader(const char* shaderName, const char* vertexShader, const char* fragmentShader) {
-		if (LoadedShaders.containsKey(shaderName)) {
-			std::cout << "Shader " << shaderName << "is already loaded.\n";
-			return;
-		}
-		
-		LoadedShaders.add(shaderName, new shaderProgram(shaderName, vertexShader, fragmentShader));
-		std::cout << "Successfully added " << shaderName << " to the database.\n";
-	}
-
-	shaderProgram* const findShader(const char* shaderName) {
-		if (shaderProgram* const shader = LoadedShaders.get(shaderName)) {
-			return shader;
-		}
-		else {
-			std::cout << "Shader " << shaderName << " not found!\n";
-			return nullptr;
-		}
-	}
-
-	void removeShader(const char* shaderName) {
-		LoadedShaders.remove(shaderName);
-	}
-
-	const char* readShader(char* c, std::string filePath) {
+	static const char* readShader(const char* filePath) {
 		std::string content = "";
 		std::ifstream fileStream(filePath, std::ios::in);
 
@@ -74,20 +30,17 @@ namespace sogl {
 
 		fileStream.close();
 		content.append("\0");
-		std::cout << "'" << content << "'" << std::endl;
 		
-		c = new char[content.size()];
+		char* c = new char[content.size()];
 		content.copy(c, content.size(), 0);
 
 		return c;
 	}
 
-	unsigned int loadShader(unsigned int type, std::string shaderPath) {
+	unsigned int loadShader(const unsigned int& type, const char* shaderPath) {
 		unsigned int shaderID = 0;
-		char* c = nullptr;
-		const char* shaderSrc = readShader(c, shaderPath);
+		const char* shaderSrc = readShader(shaderPath);
 		
-
 		assert(shaderSrc != nullptr);
 
 		if (type == GL_VERTEX_SHADER) shaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -96,7 +49,7 @@ namespace sogl {
 		glShaderSource(shaderID, 1, &shaderSrc, NULL);
 		glCompileShader(shaderID);
 
-		delete[] c;
+		delete[] shaderSrc;
 		
 		// check for compiler errors
 		int logSize = 0;

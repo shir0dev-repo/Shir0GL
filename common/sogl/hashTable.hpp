@@ -16,7 +16,7 @@ T nextPowTwo(T num) {
 		num |= num >> i;
 	}
 
-	return ++num; 
+	return ++num;
 }
 
 inline char* findBufferEnd(const char* buffer) {
@@ -44,7 +44,7 @@ namespace sogl {
 			uint64_t keyLength;
 
 			inline hashTableItem() : key(nullptr), keyEnd(nullptr), value(nullptr), isManaged(true), keyLength(0) {}
-
+			inline hashTableItem(hashTableItem&) = delete;
 			inline ~hashTableItem() {
 				if (key) {
 					delete[] key;
@@ -87,6 +87,7 @@ namespace sogl {
 
 			return true;
 		}
+
 		inline void expand() {
 			uint64_t newSize = size << 1;
 			hashTable<T>::hashTableItem* temp = new hashTable<T>::hashTableItem[newSize];
@@ -107,6 +108,7 @@ namespace sogl {
 					}
 				}
 
+				
 				temp[hash] = data[i];
 			}
 
@@ -122,7 +124,7 @@ namespace sogl {
 
 		inline hashTable(uint64_t size) {
 			this->size = size < 32 ? 32 : nextPowTwo(size);
-			this->data = new hashTable<T>::hashTableItem[size];
+			this->data = new hashTable<T>::hashTableItem[this->size];
 			this->count = 0;
 		}
 
@@ -140,15 +142,20 @@ namespace sogl {
 				data = nullptr;
 			}
 		}
+
 		inline char* insert(const char* key, T* value, bool isManaged = false) {
+			if (value == nullptr) {
+				return const_cast<char*>(key);
+			}
+
 			if (++count == size) {
 				expand();
 			}
 
 			char* keyEnd = findBufferEnd(key);
-			uint64_t hash = getHash(key, keyEnd);
+			uint64_t hash = getHash(key, keyEnd) % size;
 			uint64_t startingHash = hash;
-
+			
 			while (data[hash].key != nullptr) {
 				hash = (hash + 1) % size;
 
@@ -171,14 +178,14 @@ namespace sogl {
 		inline bool remove(const char* key) {
 			char* keyEnd = findBufferEnd(key);
 
-			uint64_t hash = getHash(key, keyEnd);
+			uint64_t hash = getHash(key, keyEnd) % size;
 			uint64_t startingHash = hash;
 
 			while (data[hash].key != nullptr) {
 				if (compareKeys(&data[hash], key, keyEnd)) {
 					delete[] data[hash].key;
-					data[hash].key = nullptr;
-					data[hash].keyEnd = nullptr;
+					data[hash].key = nullptr; 
+					data[hash].keyEnd = nullptr; 
 
 					if (data[hash].isManaged == false) {
 						delete data[hash].value;
@@ -187,7 +194,7 @@ namespace sogl {
 					data[hash].value = nullptr;
 					data[hash].isManaged = true;
 					count--;
-				
+
 					return true;
 				}
 
@@ -200,13 +207,17 @@ namespace sogl {
 			return false;
 		}
 
-		inline bool contains(const char* key, T*& foundValue) {
+		inline bool find(const char* key, T*& foundValue) {
+			// avoid unnecessary checks / reading garbage data
+			if (count == 0)
+				return false;
+
 			char* keyEnd = findBufferEnd(key);
 
 			uint64_t hash = getHash(key, keyEnd) % size;
 			uint16_t startingHash = hash;
 
-			while (data[hash].value != nullptr) {
+			while (data[hash].key != nullptr) {
 				if (compareKeys(&data[hash], key, keyEnd)) {
 					foundValue = data[hash].value;
 					return true;
@@ -216,6 +227,18 @@ namespace sogl {
 
 				if (hash == startingHash) {
 					return false;
+				}
+			}
+
+			return false;
+		}
+
+		inline bool contains(const T*& value, char*& outAlias) const {
+			for (int i = 0; i < size; i++) {
+				T* val;
+				if ((val = data[i].value) != nullptr && val == value) {
+					outAlias = data[i].key;
+					return true;
 				}
 			}
 
