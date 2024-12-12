@@ -1,6 +1,8 @@
 #pragma once
 
 #include <sogl/hashTable.hpp>
+#include <sogl/linkedList.h>
+#include <sogl/pair.hpp>
 
 namespace sogl {
 	struct texture;
@@ -30,6 +32,8 @@ namespace sogl {
 	typedef enum cullingMode { back = GL_BACK, front = GL_FRONT, both = GL_FRONT_AND_BACK };
 
 	typedef struct material {
+		using uniformEntry = pair<const char*, uniform*>;
+
 		hashTable<uniform> uniforms;
 		texture** textures;
 		const shaderProgram* shader;

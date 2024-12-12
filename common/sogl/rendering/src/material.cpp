@@ -15,9 +15,6 @@
 #include <sogl/transform/matrix4f.hpp>
 #include <sogl/rendering/material.hpp>
 
-#define GET_CULL_FLAG(flag/*uint16_t*/) 1024 | ((back & (front >> 1)) << 3 | ((back ^ (front >> 1)) << 2)) | ((back ^ (front >> 1)) & back) 
-#define GET_DEPTH_FLAG(flag) ((flag & 0b01110000) >> 4) + GL_NEVER
-
 namespace sogl {
 	static hashTable<material> LoadedMaterials(32);
 	uint32_t DefaultTexture;
@@ -103,7 +100,7 @@ namespace sogl {
 
 	material::material(const shaderProgram* shader, const uint16_t glCullFunc, const uint16_t glDepthFunc) : uniforms(32) {
 		this->shader = shader;
-		
+
 		this->textures = new texture * [MAX_TEXTURES];
 		this->numTextures = 0;
 		const uint32_t prog = shader->programID;
@@ -142,18 +139,21 @@ namespace sogl {
 			}
 			// for now, this method just ensures the uniform is a supported type
 			getUploadMethodForUniform(unif);
-			uniforms.insert(const_cast<const char*>(unif->name), unif, false);
+			
+			uniforms.insert(const_cast<const char*>(unif->name), unif);
 		}
 
 		shader->stop();
 	}
 
 	material::~material() {
-		for (uint32_t i = 0; i < uniforms.size; i++) {
-			// these uniforms are managed externally, meaning the hashtable wont delete them upload removal
-			uniform* unif;
-			while ((unif = uniforms.data[i].value) != nullptr) {
-				uniforms.remove(unif->name);
+		for (uint64_t i = 0; i < uniforms.size; i++) {
+			uniform* unif = nullptr;
+			if ((unif = uniforms.data[i].value) != nullptr) {
+				const char* key = uniforms.data[i].key;
+				delete[] unif->name;
+				uniforms.remove(key);
+
 			}
 		}
 
@@ -196,6 +196,7 @@ namespace sogl {
 
 	void material::uploadUniformData(const char* name, const void* data) {
 		uniform* unif = nullptr;
+
 		if (!uniforms.find(name, unif)) {
 			std::cout <<
 				"[GLERROR]: Could not find specified uniform " << name << ".\n" <<
@@ -227,19 +228,20 @@ namespace sogl {
 
 	void material::addTexture(texture* tex) {
 		textures[numTextures++] = tex;
-		
+
 	}
 
 	const char* material::listAllUniforms(std::ostream& os) const {
 		os << "|-- Stored uniforms:\n";
+		uint64_t size = uniforms.size;
 
-		for (uint32_t i = 0; i < uniforms.size; i++) {
-			uniform* unif;
+		for (uint32_t i = 0; i < size; i++) {
+			uniform* unif = nullptr;
 			if ((unif = uniforms.data[i].value) != nullptr) {
 				os << "  |-- [" << glGetNamedType(unif->type) << "]: " << uniforms.data[i].key << '\n';
 			}
 		}
-		
+
 		return "";
 	}
 

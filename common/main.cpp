@@ -86,10 +86,16 @@ int main() {
 		vec4f(0.1, 0.24, 0.4, 1),
 		vec4f(1, 1, 1, 0.5));
 	
-	light* pointLight = lightFactory::createPointLight(
+	light* pointLight1 = lightFactory::createPointLight(
 		vec3f(0, 0, 0), 
 		vec4f(1, 0.3, 0.1, 2), 
 		vec4f(0.7, 0.1, 0.1, 1), 
+		vec3f(20, 0, 0),
+		5);
+	light* pointLight2 = lightFactory::createPointLight(
+		vec3f(0, 0, 0),
+		vec4f(1, 0.3, 0.1, 2),
+		vec4f(0.7, 0.1, 0.1, 1),
 		vec3f(20, 0, 0),
 		5);
 	
@@ -100,7 +106,7 @@ int main() {
 		vec4f(1,1,1,0.3),
 		vec3f(0.033, 0.09, 0.0),
 		7,
-		7);
+		11);
 	
 	mesh* head = createMesh("assets/mesh/ct4.obj", "head");
 	mesh* vivi = createMesh("assets/mesh/vivi.obj", "vivi");
@@ -146,8 +152,10 @@ int main() {
 			renderCamera->update(vec3f::ZERO, vec3f::ZERO, getAspectRatio());
 		}
 
-		pointLight->positionOrDirection = vec4f(2 * sinf(getTime()), 1, (2 * cosf(getTime())) - 5, 0);
-		lightFactory::updateLightBuffer(pointLight);
+		pointLight1->positionOrDirection = vec4f(2 * sinf(getTime()), 1, (2 * cosf(getTime())) - 5, 0);
+		pointLight2->positionOrDirection = vec4f(2 * -sinf(getTime()), 1, (2 * -cosf(getTime())) - 5, 0);
+		lightFactory::updateLightBuffer(pointLight1);
+		lightFactory::updateLightBuffer(pointLight2);
 		viviRenderable.render();
 		viviWandRenderable.render();
 		planeRenderable.render();

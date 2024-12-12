@@ -197,10 +197,19 @@
     <ClInclude Include="common\sogl\rendering\factories\materialFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\linkedList.hpp">
+    <ClInclude Include="common\sogl\rendering\factories\textureFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\factories\textureFactory.hpp">
+    <ClInclude Include="..\Schoolwork\GAME2001\GAME2001_A2_MitchellJames\linkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\linkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\pair.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\factories\AssetFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
