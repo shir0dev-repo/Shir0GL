@@ -6,13 +6,12 @@
 
 #include <sogl/rendering/glUtilities.hpp>
 #include <sogl/rendering/factories/shaderFactory.hpp>
-#include <sogl/rendering/shaderUtilities.hpp>
 #include <sogl/rendering/factories/uniformBufferFactory.hpp>
 
 namespace sogl {
 	hashTable<unsigned int> shaderFactory::m_vertexShaders(32);
 	hashTable<unsigned int> shaderFactory::m_fragmentShaders(32);
-	hashTable<shaderProgram> shaderFactory::m_shaderPrograms(32);
+	hashTable<shaderProgram> shaderFactory::m_loadedShaders(32);
 
 	shaderProgram* shaderFactory::createNew(const char* vertexFilePath, const char* fragmentFilePath, const char* alias) {
 		char* aliasUsed;
@@ -25,7 +24,7 @@ namespace sogl {
 			aliasUsed = const_cast<char*>(alias);
 		}
 
-		if (m_shaderPrograms.find(aliasUsed, shader)) {
+		if (m_loadedShaders.find(aliasUsed, shader)) {
 			return shader;
 		}
 
@@ -80,7 +79,7 @@ namespace sogl {
 		}
 		
 		// program successfully linked
-		m_shaderPrograms.insert(aliasUsed, shader);
+		m_loadedShaders.insert(aliasUsed, shader);
 		
 		// collect all unique uniform blocks within shader
 		int numUniformBlocks = 0;
@@ -117,7 +116,7 @@ namespace sogl {
 	}
 
 	bool shaderFactory::find(const char* alias, shaderProgram*& outShader) {
-		return m_shaderPrograms.find(alias, outShader);
+		return m_loadedShaders.find(alias, outShader);
 	}
 
 	unsigned int shaderFactory::createShaderSource(const char* filePath, const unsigned int sourceType) {
@@ -216,16 +215,16 @@ namespace sogl {
 	}
 
 	void shaderFactory::terminate() {
-		for (uint16_t i = 0; i < m_shaderPrograms.size; i++) {
+		for (uint16_t i = 0; i < m_loadedShaders.size; i++) {
 			shaderProgram* shader;
-			if ((shader = m_shaderPrograms.data[i].value) == nullptr)
+			if ((shader = m_loadedShaders.data[i].value) == nullptr)
 				continue;
 
 			glDeleteProgram(shader->programID);
 			shader->programID = 0;
 			shader->vertexShaderID = 0;
 			shader->fragmentShaderID = 0;
-			m_shaderPrograms.remove(m_shaderPrograms.data[i].key);
+			m_loadedShaders.remove(m_loadedShaders.data[i].key);
 		}
 		for (uint16_t i = 0; i < m_vertexShaders.size; i++) {
 			unsigned int* vert;

@@ -20,8 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common\main.cpp" />
+    <ClCompile Include="common\sogl\debug\src\debug.cpp" />
+    <ClCompile Include="common\sogl\noise\src\fastNoise.cpp" />
     <ClCompile Include="common\sogl\rendering\factories\src\materialFactory.cpp" />
     <ClCompile Include="common\sogl\rendering\factories\src\textureFactory.cpp" />
+    <ClCompile Include="common\sogl\rendering\gl\src\mappedBuffer.cpp" />
     <ClCompile Include="common\sogl\rendering\gl\src\uniformBufferObject.cpp" />
     <ClCompile Include="common\sogl\rendering\src\camera.cpp" />
     <ClCompile Include="common\sogl\rendering\src\color.cpp" />
@@ -49,17 +52,16 @@
     <ClInclude Include="common\GLEW\wglew.h" />
     <ClInclude Include="common\GLFW\glfw3.h" />
     <ClInclude Include="common\GLFW\glfw3native.h" />
-    <ClInclude Include="common\sogl\hashTable.hpp" />
-    <ClInclude Include="common\sogl\linkedList.h" />
+    <ClInclude Include="common\sogl\debug\debug.h" />
     <ClInclude Include="common\sogl\mathutil.hpp" />
-    <ClInclude Include="common\sogl\pair.hpp" />
+    <ClInclude Include="common\sogl\noise\fastNoise.h" />
     <ClInclude Include="common\sogl\rendering\camera.hpp" />
     <ClInclude Include="common\sogl\rendering\color.hpp" />
     <ClInclude Include="common\sogl\rendering\color32.hpp" />
-    <ClInclude Include="common\sogl\rendering\factories\AssetFactory.h" />
     <ClInclude Include="common\sogl\rendering\factories\materialFactory.hpp" />
     <ClInclude Include="common\sogl\rendering\factories\textureFactory.hpp" />
     <ClInclude Include="common\sogl\rendering\glUtilities.hpp" />
+    <ClInclude Include="common\sogl\rendering\gl\mappedBuffer.h" />
     <ClInclude Include="common\sogl\rendering\gl\uniformBufferObject.hpp" />
     <ClInclude Include="common\sogl\rendering\light.hpp" />
     <ClInclude Include="common\sogl\rendering\factories\lightFactory.hpp" />
@@ -68,10 +70,17 @@
     <ClInclude Include="common\sogl\rendering\renderable.hpp" />
     <ClInclude Include="common\sogl\rendering\factories\shaderFactory.hpp" />
     <ClInclude Include="common\sogl\rendering\gl\shaderProgram.hpp" />
-    <ClInclude Include="common\sogl\rendering\shaderUtilities.hpp" />
     <ClInclude Include="common\sogl\rendering\texture.hpp" />
     <ClInclude Include="common\sogl\rendering\gl\vertexArrayObject.hpp" />
     <ClInclude Include="common\sogl\rendering\factories\uniformBufferFactory.hpp" />
+    <ClInclude Include="common\sogl\structure\bitSet.h" />
+    <ClInclude Include="common\sogl\structure\hashTable.hpp" />
+    <ClInclude Include="common\sogl\structure\linkedList.h" />
+    <ClInclude Include="common\sogl\structure\octree.h" />
+    <ClInclude Include="common\sogl\structure\pair.hpp" />
+    <ClInclude Include="common\sogl\structure\priorityQueue.h" />
+    <ClInclude Include="common\sogl\structure\queue.h" />
+    <ClInclude Include="common\sogl\structure\runLengthEncoding.h" />
     <ClInclude Include="common\sogl\transform\matrix3f.hpp" />
     <ClInclude Include="common\sogl\transform\matrix4f.hpp" />
     <ClInclude Include="common\sogl\transform\matrixNf.hpp" />
@@ -79,6 +88,7 @@
     <ClInclude Include="common\sogl\transform\quatd.hpp" />
     <ClInclude Include="common\sogl\transform\transform.hpp" />
     <ClInclude Include="common\sogl\transform\vec3f.hpp" />
+    <ClInclude Include="common\sogl\transform\vec3i.hpp" />
     <ClInclude Include="common\sogl\transform\vec4f.hpp" />
     <ClInclude Include="common\stbi\stb_image.h" />
     <ClInclude Include="ext\GLEW\glew.h" />

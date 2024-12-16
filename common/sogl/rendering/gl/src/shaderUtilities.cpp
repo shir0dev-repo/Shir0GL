@@ -10,7 +10,6 @@
 
 #include <sogl/rendering/gl/shaderProgram.hpp>
 #include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/shaderUtilities.hpp>
 
 namespace sogl {
 	static const char* readShader(const char* filePath) {

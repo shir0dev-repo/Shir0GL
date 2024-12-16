@@ -4,9 +4,11 @@
 #include <iostream>
 #include <stbi/stb_image.h>
 
-#include <sogl/linkedList.hpp>
+#include <sogl/structure/linkedList.h>
+#include <sogl/structure/octree.h>
+
 #include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/shaderUtilities.hpp>
+#include <sogl/structure/runLengthEncoding.h>
 #include <sogl/rendering/renderable.hpp>
 #include <sogl/rendering/camera.hpp>
 #include <sogl/rendering/material.hpp>
@@ -18,11 +20,12 @@
 #include <sogl/rendering/factories/uniformBufferFactory.hpp>
 #include <sogl/rendering/factories/lightFactory.hpp>
 
+#include <sogl/world/data/chunk.h>
+
 using namespace sogl;
 
 const int W_WIDTH = 800;
 const int W_HEIGHT = 800;
-
 
 int main() {
 	GLFWwindow* windPtr = glInitialize(W_WIDTH, W_HEIGHT);
@@ -112,7 +115,8 @@ int main() {
 	mesh* vivi = createMesh("assets/mesh/vivi.obj", "vivi");
 	mesh* viviWand = createMesh("assets/mesh/vivi-wand.obj", "viviWand");
 	mesh* plane = createMesh("assets/mesh/plane.obj", "plane");
-	
+	mesh* cube = createMesh("assets/mesh/cube.obj", "cube");
+
 	renderable viviRenderable(*vivi, viviMaterial);
 	viviRenderable.transform.setPosition(vec3f(0, -1, -5));
 	renderable viviWandRenderable(*viviWand, viviWandMaterial);
@@ -126,12 +130,38 @@ int main() {
 	float moveSpeed;
 	getMoveSpeed(&moveSpeed);
 
+	octree<int> tree(vec3f(0, 0, 0), vec3f(16, 16, 16));
+	int vals[512]{ 0 };
+	vec3f poses[512];
+
+	for (int i = 0; i < 512; i++) {
+		vals[i] = i;
+		poses[i] = vec3f(
+			randf(-4, 4),
+			randf(-4, 4),
+			randf(-4, 4));
+	}
+
+	for (int i = 0; i < 512; i++) {
+		tree.insert(&vals[i], poses[i]);
+	}
+
 	vec3f input;
 	vec3f cursorDelta;
 	camera* const renderCamera = getRenderCamera();
+	debug::setPointSize(5);
+	//chunk chnk(vec3f(0, 0, 0));
+
 	while (!glfwWindowShouldClose(windPtr)) {
 		glStartFrame();
 		glPollEvents();
+
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glLoadMatrixf(renderCamera->projectionMatrix.getPointer());
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glLoadMatrixf(renderCamera->viewMatrix.getPointer());
 
 		float deltaTime = getDeltaTime();
 		if (getKeyPressed(GLFW_KEY_LEFT_ALT)) {
@@ -158,7 +188,15 @@ int main() {
 		lightFactory::updateLightBuffer(pointLight2);
 		viviRenderable.render();
 		viviWandRenderable.render();
-		planeRenderable.render();
+		//planeRenderable.render();
+
+		//chnk.draw();
+		//chnk1.draw();
+		//chnk2.draw();
+		//chnk3.draw();
+		tree.drawOutline();
+		debug::finalize();
+
 		glfwSwapBuffers(windPtr);
 	}
 

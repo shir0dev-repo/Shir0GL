@@ -9,7 +9,8 @@ namespace sogl {
 		inline pair() {}
 
 		inline pair(T1 item1, T2 item2) {
-
+			first = item1;
+			second = item2;
 		}
 	};
 }

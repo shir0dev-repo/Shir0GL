@@ -12,8 +12,9 @@ namespace sogl {
 		unsigned int target;
 
 		vertexBufferObject();
-		vertexBufferObject(const unsigned int& size, const void* data, const unsigned int& target);		
+		vertexBufferObject(const unsigned int& size, const void* data, const unsigned int& target);
 		void bind() const;
+		void bufferData(const unsigned int& size, const unsigned int& offset, const void* data);
 		void unbind() const;
 	};
 

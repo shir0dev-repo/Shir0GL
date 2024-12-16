@@ -97,5 +97,9 @@ namespace sogl {
 		inline explicit operator vec3f() const {
 			return vec3f(x, y, z);
 		}
+
+		inline explicit operator float*() {
+			return &x;
+		}
 	};
 }

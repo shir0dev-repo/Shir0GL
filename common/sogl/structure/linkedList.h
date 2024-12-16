@@ -25,6 +25,13 @@ public:
 	}
 
 	uint32_t size() const { return m_count; }
+	inline const T* last() const {
+		return &tail->item;
+	}
+	
+	inline T* last() {
+		return &tail->item;
+	}
 
 	void add(T item) {
 		node* newNode = new node();
@@ -45,6 +52,12 @@ public:
 		
 		temp->next = tail = newNode;
 		m_count++;
+	}
+
+	void addRange(const T* arr, uint32_t size) {
+		for (uint32_t i = 0; i < size; i++) {
+			add(arr[i]);
+		}
 	}
 
 	void emplace(T item, uint32_t index) {
@@ -192,6 +205,26 @@ public:
 			delete temp;
 			temp = n;
 		}
+
+		m_count = 0;
+		head = tail = nullptr;
+
+	}
+	inline void toArray(T*& outArray) const {
+		if (m_count <= 0) return;
+
+		if (outArray != nullptr) {
+			delete[] outArray;
+		}
+
+		outArray = new T[this->m_count];
+
+		int index = 0;
+		node* current = head;
+		while (index < m_count && current != nullptr) {
+			outArray[index++] = current->item;
+			current = current->next;
+		}
 	}
 
 	inline T operator[] (uint32_t index) const {
@@ -201,11 +234,23 @@ public:
 		uint32_t current = 0;
 		
 		// prefix increment so we get the last valid node
-		while (temp && ++current <= index) {
+		while (temp && ++current < index) {
 			temp = temp->next;
 		}
 
 		assert(temp);
+		return temp->item;
+	}
+
+	inline T& operator[](uint32_t index) {
+		assert(m_count > 0 && index >= 0 && index < m_count);
+
+		node* temp = head;
+		uint32_t current = 0;
+		while (temp && ++current < index) {
+			temp = temp->next;
+		}
+
 		return temp->item;
 	}
 };

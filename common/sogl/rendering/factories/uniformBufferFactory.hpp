@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/rendering/gl/uniformBufferObject.hpp>
 
 namespace sogl {

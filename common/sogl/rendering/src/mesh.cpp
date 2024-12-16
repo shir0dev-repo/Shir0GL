@@ -2,7 +2,7 @@
 #include <iostream>
 
 // SOGL:
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/transform/vec3f.hpp>
 #include <sogl/rendering/mesh.hpp>
 

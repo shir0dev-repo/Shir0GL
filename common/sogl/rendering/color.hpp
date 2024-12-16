@@ -1,7 +1,7 @@
 #pragma once
 
 #include <algorithm>
-
+#include <sogl/transform/vec4f.hpp>
 namespace sogl {
 
 	struct color {
@@ -158,6 +158,18 @@ namespace sogl {
 			a *= scalar;
 
 			return *this;
+		}
+
+		inline operator vec4f() {
+			return vec4f(r, g, b, a);
+		}
+
+		inline explicit operator float*() {
+			return &r;
+		}
+
+		inline explicit operator const float* () const {
+			return &r;
 		}
 	};
 }

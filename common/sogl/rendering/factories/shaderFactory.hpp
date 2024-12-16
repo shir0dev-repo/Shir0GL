@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/rendering/gl/shaderProgram.hpp>
 
 namespace sogl {
@@ -9,8 +9,8 @@ namespace sogl {
 	typedef class shaderFactory {
 		static hashTable<unsigned int> m_vertexShaders;
 		static hashTable<unsigned int> m_fragmentShaders;
-		static hashTable<shaderProgram> m_shaderPrograms;
-		
+		static hashTable<shaderProgram> m_loadedShaders;
+
 		static unsigned int createShaderSource(const char* filePath, const unsigned int sourceType);
 		static bool findSource(const char* alias, const unsigned int sourceType, unsigned int*& outSourceID);
 		static bool readShader(const char* filePath, char*& outSource);

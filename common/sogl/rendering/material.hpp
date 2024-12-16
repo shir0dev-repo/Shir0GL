@@ -1,8 +1,8 @@
 #pragma once
 
-#include <sogl/hashTable.hpp>
-#include <sogl/linkedList.h>
-#include <sogl/pair.hpp>
+#include <sogl/structure/hashTable.hpp>
+#include <sogl/structure/linkedList.h>
+#include <sogl/structure/pair.hpp>
 
 namespace sogl {
 	struct texture;

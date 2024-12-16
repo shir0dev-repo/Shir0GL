@@ -3,21 +3,9 @@
 #include <cassert>
 #include <string>
 
+#include <sogl/mathutil.hpp>
+
 #define CAPACITY 50000
-
-template<typename T>
-T nextPowTwo(T num) {
-	assert(num > 1);
-
-	uint64_t iterations = sizeof(T) * 8;
-	num--;
-
-	for (int i = 1; i < iterations; i <<= 1) {
-		num |= num >> i;
-	}
-
-	return ++num;
-}
 
 inline char* findBufferEnd(const char* buffer) {
 	char* end = const_cast<char*>(buffer);
@@ -137,10 +125,10 @@ namespace sogl {
 				if (data[i].isManaged) {
 					delete data[i].value;
 				}
-
-				delete[] data;
-				data = nullptr;
 			}
+
+			delete[] data;
+			data = nullptr;
 		}
 
 		inline char* insert(const char* key, T* value, bool isManaged = false) {

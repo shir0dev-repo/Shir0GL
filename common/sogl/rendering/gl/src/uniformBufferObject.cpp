@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/transform/vec3f.hpp>
 #include <sogl/transform/vec4f.hpp>
 #include <sogl/transform/matrix3f.hpp>

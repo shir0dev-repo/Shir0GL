@@ -33,11 +33,15 @@ namespace sogl {
 		}
 
 		inline vec3f& operator=(const vec3f& v) {
-			this->x = v.x;
-			this->y = v.y;
-			this->z = v.z;
+			this->set(v.x, v.y, v.z);
 
 			return *this;
+		}
+
+		inline void set(const float& x, const float& y, const float& z) {
+			this->x = x;
+			this->y = y;
+			this->z = z;
 		}
 
 		inline float length() const {
@@ -65,6 +69,13 @@ namespace sogl {
 			z *= inv_l;
 		}
 
+		inline static float distance(const vec3f& a, const vec3f& b) {
+			return sqrtf(distanceSquared(a, b));
+		}
+
+		inline static float distanceSquared(const vec3f& a, const vec3f& b) {
+			return fabs(powf(b.x - a.x, 2) + powf(b.y - a.y, 2) + powf(b.z - a.z, 2));
+		}
 		inline static vec3f lerp(const vec3f& a, const vec3f& b, const float& t) {
 			return a + (b - a) * t;
 		}
@@ -190,6 +201,14 @@ namespace sogl {
 
 		inline bool operator!=(const vec3f& other) const {
 			return !(*this == other);
+		}
+
+		inline explicit operator float* () {
+			return &x;
+		}
+
+		inline explicit operator const float* () const {
+			return &x;
 		}
 
 		inline friend std::ostream& operator<<(std::ostream& os, const vec3f& v) {

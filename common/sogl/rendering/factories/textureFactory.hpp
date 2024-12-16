@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/rendering/texture.hpp>
 
 namespace sogl {

@@ -12,7 +12,7 @@
 #include <functional> // for std::ref
 #include <cassert>
 
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/rendering/mesh.hpp>
 #include <sogl/transform/vec3f.hpp>
 

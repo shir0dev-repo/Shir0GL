@@ -8,7 +8,6 @@
 #include <cstring>
 
 //SOGL: 
-#include <sogl/hashTable.hpp>
 #include <sogl/transform/vec3f.hpp>
 #include <sogl/transform/vec4f.hpp>
 #include <sogl/transform/matrix3f.hpp>
@@ -16,7 +15,6 @@
 #include <sogl/rendering/color.hpp>
 #include <sogl/rendering/color32.hpp>
 #include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/shaderUtilities.hpp>
 #include <sogl/rendering/gl/shaderProgram.hpp>
 
 namespace sogl {

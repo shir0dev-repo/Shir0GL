@@ -5,7 +5,6 @@
 #include <sstream>
 #include <concepts>
 
-#include <sogl/hashTable.hpp>
 #include <sogl/rendering/glUtilities.hpp>
 #include <sogl/rendering/texture.hpp>
 #include <sogl/rendering/color.hpp>

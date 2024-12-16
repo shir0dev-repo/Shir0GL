@@ -81,6 +81,15 @@
     <ClCompile Include="common\sogl\rendering\factories\src\textureFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="common\sogl\debug\src\debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\rendering\gl\src\mappedBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\noise\src\fastNoise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\sogl\rendering\camera.hpp">
@@ -119,9 +128,6 @@
     <ClInclude Include="common\sogl\transform\vec4f.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\mathutil.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="common\GLEW\glew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,12 +144,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\rendering\gl\shaderProgram.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="common\sogl\rendering\shaderUtilities.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="common\sogl\hashTable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\GLEW\glew.h">
@@ -203,13 +203,43 @@
     <ClInclude Include="..\Schoolwork\GAME2001\GAME2001_A2_MitchellJames\linkedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\linkedList.h">
+    <ClInclude Include="common\sogl\transform\vec3i.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\pair.hpp">
+    <ClInclude Include="common\sogl\debug\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\factories\AssetFactory.h">
+    <ClInclude Include="common\sogl\rendering\gl\mappedBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\hashTable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\linkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\octree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\pair.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\priorityQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\mathutil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\runLengthEncoding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\noise\fastNoise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\bitSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

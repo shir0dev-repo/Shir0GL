@@ -21,6 +21,19 @@ namespace sogl {
 		glBindBuffer(target, ID);
 	}
 
+	void vertexBufferObject::bufferData(const unsigned int& size, const unsigned int& offset, const void* data) {
+		bind();
+		if (size <= this->size) {
+			glBufferSubData(this->target, offset, size, data);
+		}
+		else {
+			// reallocate the buffer, and reflect changes on vbo
+			this->size = size;
+			glBufferData(this->target, size, data, GL_STATIC_DRAW);
+		}
+		unbind();
+	}
+
 	void vertexBufferObject::unbind() const {
 		glBindBuffer(target, 0);
 	}

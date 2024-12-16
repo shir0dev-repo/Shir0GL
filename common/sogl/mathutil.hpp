@@ -55,4 +55,24 @@ namespace sogl {
 			clampAngle(&eulers->z, true);
 		}
 	}
+
+	inline int sign(const int& i) { return (i > 0) - (i < 0); }
+
+	inline float randf(float low, float high) {
+		return low + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (high - low)));
+	}
+
+	template<typename T>
+	inline T nextPowTwo(T num) {
+		assert(num > 1);
+
+		uint64_t iterations = sizeof(T) * 8;
+		num--;
+
+		for (int i = 1; i < iterations; i <<= 1) {
+			num |= num >> i;
+		}
+
+		return ++num;
+	}
 }

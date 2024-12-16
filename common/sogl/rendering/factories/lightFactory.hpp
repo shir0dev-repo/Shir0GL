@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/transform/vec3f.hpp>
 #include <sogl/rendering/light.hpp>
 

@@ -2,10 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include <sogl/hashTable.hpp>
+#include <sogl/structure/hashTable.hpp>
 #include <sogl/transform/transform.hpp>
 #include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/shaderUtilities.hpp>
 #include <sogl/rendering/material.hpp>
 #include <sogl/rendering/texture.hpp>
 #include <sogl/rendering/camera.hpp>

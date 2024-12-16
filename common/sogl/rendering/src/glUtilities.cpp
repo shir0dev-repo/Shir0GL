@@ -11,6 +11,8 @@
 #include <sogl/rendering/glUtilities.hpp>
 #include <sogl/rendering/camera.hpp>
 #include <sogl/transform/vec3f.hpp>
+#include <sogl/debug/debug.h>
+#include <sogl/world/data/chunk.h>
 
 static void GLFWDefaultErrorCallback(int error, const char* msg) {
 	fprintf(stderr,
@@ -22,6 +24,8 @@ namespace sogl {
 	static InstanceData CurrentInstance;
 
 	GLFWwindow* glInitialize(const int& windowHeight, const int& windowWidth) {
+		srand(static_cast<unsigned>(time(0)));
+
 		std::cout << "Initializing GLFW...";
 		if (glfwInit() == GLFW_FALSE) {
 			glfwTerminate();
@@ -102,16 +106,24 @@ namespace sogl {
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);
 
+		glEnable(GL_POINT_SIZE);
+		glfwMaximizeWindow(CurrentInstance.window);
+		
+		debug::setup();
+		//chunk::initialize();
 		return CurrentInstance.window;
 	}
 
 	void glStartFrame() {
 		glfwGetFramebufferSize(CurrentInstance.window, &CurrentInstance.windowWidth, &CurrentInstance.windowHeight);
 		CurrentInstance.aspectRatio = (float)CurrentInstance.windowWidth / CurrentInstance.windowHeight;
-
+		glViewport(0, 0, CurrentInstance.windowWidth, CurrentInstance.windowHeight);
 		glClearColor(0.07, 0.1, 0.2, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
