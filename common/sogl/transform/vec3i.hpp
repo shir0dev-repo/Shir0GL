@@ -29,9 +29,13 @@ namespace sogl {
 		}
 
 		inline vec3i operator=(const vec3i& v) {
-			this->x = v.x;
-			this->y = v.y;
-			this->z = v.z;
+			set(v.x, v.y, v.z);
+		}
+
+		inline void set(int32_t x, int32_t y, int32_t z) {
+			this->x = x;
+			this->y = y;
+			this->z = z;
 		}
 
 		inline vec3i normalized() const {

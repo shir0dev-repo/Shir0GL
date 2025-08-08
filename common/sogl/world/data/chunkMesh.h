@@ -1,20 +1,13 @@
 #pragma once
 
 namespace sogl {
-	typedef class chunkMesh {
-		typedef enum blockFaceType : uint8_t {
-			LEFT,
-			RIGHT,
-			TOP,
-			BOTTOM,
-			FRONT,
-			BACK
-		};
-
-		struct mesh* meshData;
-
-		void addFace(chunk* chunkData, const blockFaceType faceType, const struct vec3f& position, )
+	typedef class ChunkMesh {
+		void ConstructAxisBitset(Chunk* chunk, uint64_t*& outBitset);
+		void GreedyMeshBinaryPlane(std::vector<struct GreedyQuad>* quadVerts, uint64_t* planeData);
+		static vec3f WorldToSample(enum FaceDirection dir, uint64_t axis, uint64_t x, uint64_t y);
+		static void AppendVertices(GreedyQuad quad, std::vector<vec3f>* vertices, std::vector<uint32_t>* normals, FaceDirection faceDir, uint64_t axis, uint64_t blockType);
 	public:
-		chunkMesh(struct chunk& chunkData);
+		struct Mesh* meshData;
+		ChunkMesh(struct Chunk& chunk);
 	};
 }

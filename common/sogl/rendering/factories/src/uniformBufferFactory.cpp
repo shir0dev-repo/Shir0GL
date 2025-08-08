@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-#include <sogl/rendering/glUtilities.hpp>
+#include <sogl/rendering/glUtilities.h>
 #include <sogl/rendering/factories/uniformBufferFactory.hpp>
 
 namespace sogl {
-	hashTable<uniformBufferObject> uniformBufferFactory::m_uniformBuffers(32);
+	hashTable<UniformBuffer> uniformBufferFactory::m_uniformBuffers(32);
 
 	uint16_t uniformBufferFactory::getBufferSize(const uint16_t program, const uint16_t blockIndex) {
 		int size = 0;
@@ -14,9 +14,9 @@ namespace sogl {
 		return size;
 	}
 
-	uniformBufferObject* uniformBufferFactory::createNew(const char* bufferName, const uint32_t bufferSize) {
+	UniformBuffer* uniformBufferFactory::createNew(const char* bufferName, const uint32_t bufferSize) {
 		glErrorCB(glGetError());
-		uniformBufferObject* buf = nullptr;
+		UniformBuffer* buf = nullptr;
 		if (find(bufferName, buf)) {
 			std::cout <<
 				"[Uniform Buffer Manager]: Failed to create uniform buffer!\n" <<
@@ -25,7 +25,7 @@ namespace sogl {
 		}
 		
 		// create a new blank buffer
-		buf = new uniformBufferObject();
+		buf = new UniformBuffer();
 		buf->name = bufferName;
 		buf->bufferSize = bufferSize;
 
@@ -44,7 +44,7 @@ namespace sogl {
 		return buf;
 	}
 
-	bool uniformBufferFactory::find(const char* bufferName, uniformBufferObject*& outUBO) {
+	bool uniformBufferFactory::find(const char* bufferName, UniformBuffer*& outUBO) {
 		return m_uniformBuffers.find(bufferName, outUBO);
 	}
 
@@ -57,7 +57,7 @@ namespace sogl {
 
 			std::cout << "[Uniform Buffer Manager]: Deleting buffer \"" << key << "\"...\n";
 
-			uniformBufferObject* buf = m_uniformBuffers.data[i].value;
+			UniformBuffer* buf = m_uniformBuffers.data[i].value;
 
 			if (glIsBuffer(buf->ID)) {
 				glDeleteBuffers(1, &buf->ID);

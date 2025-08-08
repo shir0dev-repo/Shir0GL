@@ -7,21 +7,22 @@
 #include <sogl/structure/linkedList.h>
 #include <sogl/structure/octree.h>
 
-#include <sogl/rendering/glUtilities.hpp>
+#include <sogl/rendering/glUtilities.h>
 #include <sogl/structure/runLengthEncoding.h>
 #include <sogl/rendering/renderable.hpp>
 #include <sogl/rendering/camera.hpp>
-#include <sogl/rendering/material.hpp>
-#include <sogl/rendering/mesh.hpp>
+#include <sogl/rendering/factories/MaterialFactory.h>
 #include <sogl/rendering/color.hpp>
-
-#include <sogl/rendering/factories/textureFactory.hpp>
-#include <sogl/rendering/factories/shaderFactory.hpp>
+// factories:
+#include <sogl/rendering/factories/MeshFactory.h>
+#include <sogl/rendering/factories/TextureFactory.h>
+#include <sogl/rendering/factories/ShaderFactory.h>
 #include <sogl/rendering/factories/uniformBufferFactory.hpp>
 #include <sogl/rendering/factories/lightFactory.hpp>
+#include <sogl/rendering/factories/ModelFactory.h>
 
 #include <sogl/world/data/chunk.h>
-
+#include <sogl/world/data/chunkMesh.h>
 using namespace sogl;
 
 const int W_WIDTH = 800;
@@ -29,34 +30,36 @@ const int W_HEIGHT = 800;
 
 int main() {
 	GLFWwindow* windPtr = glInitialize(W_WIDTH, W_HEIGHT);
-	glAddTerminationFunction(terminateMeshes);
-	glAddTerminationFunction(terminateMaterials);
+	glAddTerminationFunction(MeshFactory::Terminate);
+	MaterialFactory::SetSaveOnTerminate(true);
+	glAddTerminationFunction(MaterialFactory::Terminate);
 	glAddTerminationFunction(uniformBufferFactory::terminate);
-	glAddTerminationFunction(shaderFactory::terminate);
 	glAddTerminationFunction(lightFactory::terminate);
-	glAddTerminationFunction(textureFactory::terminate);
+	glAddTerminationFunction(TextureFactory::terminate);
+	glAddTerminationFunction(ShaderFactory::terminate);
 
-	texture* defaultTexture = textureFactory::getDefaultTexture();
-	texture* viviTexture = textureFactory::loadTexture("assets/tex/vivi-col.png");
-	texture* viviWandTexture = textureFactory::loadTexture("assets/tex/vivi-wand-col.png");
+	Texture* defaultTexture = TextureFactory::getDefaultTexture();
+	Texture* viviTexture = TextureFactory::loadTexture("assets/tex/vivi-col.png");
+	Texture* viviWandTexture = TextureFactory::loadTexture("assets/tex/vivi-wand-col.png");
 	
-	shaderProgram* litShader = shaderFactory::createNew("assets/shader/lit.vert", "assets/shader/lit.frag", "lit");
+	ShaderProgram* litShader = ShaderFactory::createNew("assets/shader/lit.vert", "assets/shader/lit.frag", "lit");
 	//shaderProgram* defaultShader = shaderFactory::createNew("assets/shader/default.vert", "assets/shader/default.frag", "default");
 	//shaderProgram* normalColorShader = shaderFactory::createNew("assets/shader/default.vert", "assets/shader/normal_color.frag", "normalColor");
 	//shaderProgram* texCoordColorShader = shaderFactory::createNew("assets/shader/default.vert", "assets/shader/tcoord_color.frag", "texCoordColor");
-	shaderProgram* texturedShader = shaderFactory::createNew("assets/shader/default.vert", "assets/shader/texture.frag", "textured");
-
+	ShaderProgram* texturedShader = ShaderFactory::createNew("assets/shader/default.vert", "assets/shader/texture.frag", "textured");
+	ShaderProgram* wireFrameShader = ShaderFactory::createNew("assets/shader/wireframe.vert", "assets/shader/wireframe.frag", "wireframe");
 	//material* defaultMaterial = createMaterial(defaultShader, "defaultMat");
 	//material* normalMaterial = createMaterial(normalColorShader, "normalMat");
-	material* litMaterial = createMaterial(litShader, "litMat");
-	material* viviMaterial = createMaterial(litShader, "viviMat");
-	material* viviWandMaterial = createMaterial(litShader, "viviWandMat");
+	Material* litMaterial = MaterialFactory::CreateNew(litShader, "litMat");
+	Material* viviMaterial = MaterialFactory::CreateNew(litShader, "viviMat");
+	Material* viviWandMaterial = MaterialFactory::CreateNew(litShader, "viviWandMat");
+	Material* wireframeMaterial = MaterialFactory::CreateNew(wireFrameShader, "wireframeMat");
 
 	litMaterial->addTexture(defaultTexture);
 	viviMaterial->addTexture(viviTexture);
 	viviWandMaterial->addTexture(viviWandTexture);
 
-	litMaterial->listAllUniforms(std::cout);
+	litMaterial->listAllUniforms();
 	
 	float spec = 0.5f;
 	float amb = 0.15f;
@@ -111,11 +114,12 @@ int main() {
 		7,
 		11);
 	
-	mesh* head = createMesh("assets/mesh/ct4.obj", "head");
-	mesh* vivi = createMesh("assets/mesh/vivi.obj", "vivi");
-	mesh* viviWand = createMesh("assets/mesh/vivi-wand.obj", "viviWand");
-	mesh* plane = createMesh("assets/mesh/plane.obj", "plane");
-	mesh* cube = createMesh("assets/mesh/cube.obj", "cube");
+	
+	const Mesh* cube = MeshFactory::CreateNew("assets/mesh/cube.obj", "cube");
+	const Mesh* head = MeshFactory::CreateNew("assets/mesh/head.obj", "head");
+	const Mesh* vivi = MeshFactory::CreateNew("assets/mesh/vivi.obj", "vivi");
+	const Mesh* viviWand = MeshFactory::CreateNew("assets/mesh/vivi-wand.obj", "viviWand");
+	const Mesh* plane = MeshFactory::CreateNew("assets/mesh/plane.obj", "plane");
 
 	renderable viviRenderable(*vivi, viviMaterial);
 	viviRenderable.transform.setPosition(vec3f(0, -1, -5));
@@ -124,34 +128,20 @@ int main() {
 
 	renderable planeRenderable(*plane, litMaterial);
 	planeRenderable.transform.setPosition(vec3f(0, -1, 0));
+	Model* vvModel = new Model(vivi, viviMaterial);
 
 	setMoveSpeed(10);
 	setMouseSensitivity(2, 2);
 	float moveSpeed;
 	getMoveSpeed(&moveSpeed);
 
-	octree<int> tree(vec3f(0, 0, 0), vec3f(16, 16, 16));
-	int vals[512]{ 0 };
-	vec3f poses[512];
-
-	for (int i = 0; i < 512; i++) {
-		vals[i] = i;
-		poses[i] = vec3f(
-			randf(-4, 4),
-			randf(-4, 4),
-			randf(-4, 4));
-	}
-
-	for (int i = 0; i < 512; i++) {
-		tree.insert(&vals[i], poses[i]);
-	}
-
 	vec3f input;
 	vec3f cursorDelta;
 	camera* const renderCamera = getRenderCamera();
 	debug::setPointSize(5);
-	//chunk chnk(vec3f(0, 0, 0));
-
+	
+	Chunk ch(vec3f(0, 0, 0));
+	ChunkMesh chMesh(ch);
 	while (!glfwWindowShouldClose(windPtr)) {
 		glStartFrame();
 		glPollEvents();
@@ -188,13 +178,12 @@ int main() {
 		lightFactory::updateLightBuffer(pointLight2);
 		viviRenderable.render();
 		viviWandRenderable.render();
-		//planeRenderable.render();
-
-		//chnk.draw();
-		//chnk1.draw();
-		//chnk2.draw();
-		//chnk3.draw();
-		tree.drawOutline();
+		ch.draw();
+		glBegin(GL_TRIANGLES);
+		for (int i = 0; i < chMesh.meshData->VertexCount(); i+= 3) {
+			glVertex3f(chMesh.meshData->Vertices()[i], chMesh.meshData->Vertices()[i + 1], chMesh.meshData->Vertices()[i + 2]);
+		}
+		glEnd();
 		debug::finalize();
 
 		glfwSwapBuffers(windPtr);

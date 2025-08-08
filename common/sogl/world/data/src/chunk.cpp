@@ -3,17 +3,18 @@
 #include <sogl/world/data/chunk.h>
 #include <sogl/rendering/color.hpp>
 #include <sogl/debug/debug.h>
-#include <sogl/rendering/gl/mappedBuffer.h>
-#include <sogl/rendering/factories/shaderFactory.hpp>
-#include <sogl/rendering/mesh.hpp>
-#include <sogl/rendering/gl/vertexArrayObject.hpp>
+#include <sogl/rendering/gl/UniformBuffer.h>
+#include <sogl/rendering/factories/ShaderFactory.h>
+#include <sogl/rendering/factories/MeshFactory.h>
+#include <sogl/rendering/gl/VertexArray.h>
 #include <sogl/noise/fastNoise.h>
 
 namespace sogl {
-	shaderProgram* chunk::chunkShader = nullptr;
-	mesh* chunk::cubeMesh = nullptr;
+	ShaderProgram* Chunk::chunkShader = nullptr;
+	Mesh* Chunk::cubeMesh = nullptr;
+	FastNoise* Chunk::noiseData = new FastNoise(time(0));
 
-	color chunk::voxelColors[5] = {
+	color Chunk::voxelColors[5] = {
 		color::WHITE,
 		color(0.6, 0.6, 0.6, 1),
 		color(0.588, 0.294, 0, 1),
@@ -36,16 +37,14 @@ namespace sogl {
 		}
 	}
 
-	void chunk::initialize() {
-		chunkShader = shaderFactory::createNew("assets/shader/voxel.vert", "assets/shader/voxel.frag", "chunkShader");
+	void Chunk::initialize() {
+		chunkShader = ShaderFactory::createNew("assets/shader/voxel.vert", "assets/shader/voxel.frag", "chunkShader");
 		chunkShader->use();
 		glUniform3i(glGetUniformLocation(chunkShader->programID, "chunkSize"), CHUNK_SIZE_X, CHUNK_SIZE_Y, CHUNK_SIZE_Z);
 		chunkShader->stop();
-		noiseData = new FastNoise(time(0));
-		
 	}
 
-	chunk::chunk(const vec3f& chunkCoords) : chunkCoords(chunkCoords) {
+	Chunk::Chunk(const vec3f& chunkCoords) : chunkCoords(chunkCoords) {
 		const uint32_t totalVoxels = CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z;
 		uint32_t flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
 		this->voxelBuffer = nullptr;
@@ -74,12 +73,12 @@ namespace sogl {
 			}
 		}
 		if (cubeMesh == nullptr) {
-			findMesh("cube", cubeMesh);
+			MeshFactory::Find("cube", cubeMesh);
 		}
 
 		assert(cubeMesh != nullptr);
 
-		vao = new vertexArrayObject(*cubeMesh);
+		vao = new VertexArray(*cubeMesh);
 		glBindVertexArray(vao->ID);
 
 		glGenBuffers(1, &this->voxelBufferID);
@@ -92,7 +91,7 @@ namespace sogl {
 		glBindVertexArray(0);
 	}
 
-	voxel* const chunk::getVoxel(const uint16_t x, const uint16_t y, const uint16_t z) {
+	voxel* const Chunk::getVoxel(const uint16_t x, const uint16_t y, const uint16_t z) {
 		if (voxels == nullptr)
 			return nullptr;
 
@@ -104,11 +103,29 @@ namespace sogl {
 		return &voxels[index];
 	}
 
-	bool chunk::indexInRange(const uint16_t index) {
+	bool Chunk::getVoxelNeighbours(const uint16_t x, const uint16_t y, const uint16_t z, voxel**& outNeighbours) {
+		const voxel* v = getVoxel(x, y, z);
+		if (v == nullptr)
+			return false;
+		if (outNeighbours)
+			delete[] outNeighbours;
+		outNeighbours = new voxel*[6];
+		// hard coded for now, to see if it works
+		outNeighbours[0] = getVoxel(x + 1, y, z);
+		outNeighbours[1] = getVoxel(x - 1, y, z);
+		outNeighbours[2] = getVoxel(x, y + 1, z);
+		outNeighbours[3] = getVoxel(x, y - 1, z);
+		outNeighbours[4] = getVoxel(x, y, z + 1);
+		outNeighbours[5] = getVoxel(x, y, z - 1);
+
+		return true;
+	}
+
+	bool Chunk::indexInRange(const uint16_t index) {
 		return index >= 0 && index < CHUNK_SIZE_X * CHUNK_SIZE_Y * CHUNK_SIZE_Z;
 	}
 
-	void chunk::draw() {
+	void Chunk::draw() {
 		chunkShader->use();
 		chunkShader->uploadUniform("chunkCoord", chunkCoords);
 

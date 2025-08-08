@@ -1,18 +1,12 @@
 #pragma once
 
 namespace sogl {
-	struct vec3f;
-	struct vec4f;
-	struct matrix3f;
-	struct matrix4f;
-	struct uniformBufferObject;
-
-	typedef struct shaderProgram {
+	struct ShaderProgram {
 		unsigned int programID;
 		unsigned int vertexShaderID;
 		unsigned int fragmentShaderID;
 
-		shaderProgram();
+		ShaderProgram();
 
 		void uploadUniform(const char* uniformName, const float&			value) const;
 		void uploadUniform(const char* uniformName, const bool&				value) const;
@@ -25,5 +19,5 @@ namespace sogl {
 
 		void use() const;
 		void stop() const;
-	} shaderProgram;
+	};
 }

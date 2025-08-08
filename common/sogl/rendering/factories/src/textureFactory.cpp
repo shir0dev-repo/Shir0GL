@@ -3,13 +3,13 @@
 
 #include <iostream>
 
-#include <sogl/rendering/factories/textureFactory.hpp>
+#include <sogl/rendering/factories/TextureFactory.h>
 
 namespace sogl {
-	hashTable<texture> textureFactory::LoadedTextures(32);
-	texture* textureFactory::DefaultTexture = nullptr;
+	hashTable<Texture> TextureFactory::LoadedTextures(32);
+	Texture* TextureFactory::DefaultTexture = nullptr;
 
-	bool textureFactory::glLoadSTBITextureData(const char* filePath, texture* refTexture) {
+	bool TextureFactory::glLoadSTBITextureData(const char* filePath, Texture* refTexture) {
 		glGenTextures(1, &refTexture->ID);
 		glBindTexture(GL_TEXTURE_2D, refTexture->ID);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -33,12 +33,12 @@ namespace sogl {
 		}
 	}
 
-	texture* textureFactory::getDefaultTexture() {
+	Texture* TextureFactory::getDefaultTexture() {
 		if (DefaultTexture != nullptr) {
 			return DefaultTexture;
 		}
 
-		DefaultTexture = new texture();
+		DefaultTexture = new Texture();
 		if (!glLoadSTBITextureData("assets/tex/default.png", DefaultTexture)) {
 			std::cout <<
 				"[Texture Manager FATAL]: Default texture could not be loaded! Cannot proceed in initialization!\n" <<
@@ -49,7 +49,7 @@ namespace sogl {
 		return DefaultTexture;
 	}
 
-	texture* textureFactory::loadTexture(const char* filePath, const char* alias) {
+	Texture* TextureFactory::loadTexture(const char* filePath, const char* alias) {
 		char* aliasUsed;
 		if (strcmp(alias, "") == 0) {
 			aliasUsed = const_cast<char*>(filePath);
@@ -58,7 +58,7 @@ namespace sogl {
 			aliasUsed = const_cast<char*>(alias);
 		}
 
-		texture* tex = new texture();
+		Texture* tex = new Texture();
 
 		if (glLoadSTBITextureData(filePath, tex)) {
 			LoadedTextures.insert(aliasUsed, tex);
@@ -74,13 +74,13 @@ namespace sogl {
 		}
 	}
 
-	bool textureFactory::findTexture(const char* alias, texture*& outTexture) {
+	bool TextureFactory::findTexture(const char* alias, Texture*& outTexture) {
 		return LoadedTextures.find(alias, outTexture);
 	}
 
-	void textureFactory::terminate() {
+	void TextureFactory::terminate() {
 		for (uint64_t i = 0; i < LoadedTextures.size; i++) {
-			texture* tex = nullptr;
+			Texture* tex = nullptr;
 			char* alias = nullptr;
 			if ((alias = LoadedTextures.data[i].key) != nullptr) {
 				if (LoadedTextures.find(alias, tex)) {

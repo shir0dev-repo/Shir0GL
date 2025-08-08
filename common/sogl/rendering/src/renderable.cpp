@@ -4,18 +4,18 @@
 
 #include <sogl/structure/hashTable.hpp>
 #include <sogl/transform/transform.hpp>
-#include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/material.hpp>
-#include <sogl/rendering/texture.hpp>
+#include <sogl/rendering/glUtilities.h>
+#include <sogl/rendering/Material.h>
+#include <sogl/rendering/Texture.h>
 #include <sogl/rendering/camera.hpp>
-#include <sogl/rendering/mesh.hpp>
-#include <sogl/rendering/gl/vertexArrayObject.hpp>
-#include <sogl/rendering/gl/shaderProgram.hpp>
+#include <sogl/rendering/gl/mesh/Mesh.h>
+#include <sogl/rendering/gl/VertexArray.h>
+#include <sogl/rendering/gl/shaderProgram.h>
 #include <sogl/rendering/renderable.hpp>
 #include <sogl/rendering/factories/uniformBufferFactory.hpp>
 
 namespace sogl {
-	renderable::renderable(const mesh& mesh, material* mat) : vertexAttributes(mesh) {
+	renderable::renderable(const Mesh& Mesh, Material* mat) : vertexAttributes(Mesh) {
 		this->boundTexture = nullptr;
 		this->currentMaterial = mat;
 		this->transform = sogl::transform();
@@ -51,7 +51,7 @@ namespace sogl {
 			delete boundTexture;
 			boundTexture = nullptr;
 		}
-		boundTexture = new texture(filePath.c_str());
+		boundTexture = new Texture(filePath.c_str());
 	}
 
 	void renderable::renderAll() {

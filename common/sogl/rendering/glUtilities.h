@@ -4,6 +4,11 @@
 #include<vector>
 
 struct GLFWwindow;
+typedef unsigned int GLenum;
+typedef unsigned int GLuint;
+typedef int GLsizei;
+typedef char GLchar;
+typedef void GLvoid;
 
 namespace sogl {
 	struct camera; 

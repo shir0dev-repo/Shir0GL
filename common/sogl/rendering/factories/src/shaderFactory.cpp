@@ -4,18 +4,18 @@
 #include <iostream>
 #include <fstream>
 
-#include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/factories/shaderFactory.hpp>
+#include <sogl/rendering/glUtilities.h>
+#include <sogl/rendering/factories/ShaderFactory.h>
 #include <sogl/rendering/factories/uniformBufferFactory.hpp>
 
 namespace sogl {
-	hashTable<unsigned int> shaderFactory::m_vertexShaders(32);
-	hashTable<unsigned int> shaderFactory::m_fragmentShaders(32);
-	hashTable<shaderProgram> shaderFactory::m_loadedShaders(32);
+	hashTable<unsigned int> ShaderFactory::m_vertexShaders(32);
+	hashTable<unsigned int> ShaderFactory::m_fragmentShaders(32);
+	hashTable<ShaderProgram> ShaderFactory::m_loadedShaders(32);
 
-	shaderProgram* shaderFactory::createNew(const char* vertexFilePath, const char* fragmentFilePath, const char* alias) {
+	ShaderProgram* ShaderFactory::createNew(const char* vertexFilePath, const char* fragmentFilePath, const char* alias) {
 		char* aliasUsed;
-		shaderProgram* shader = nullptr;
+		ShaderProgram* shader = nullptr;
 
 		if (strcmp(alias, "") == 0) {
 			aliasUsed = const_cast<char*>(vertexFilePath);
@@ -39,7 +39,7 @@ namespace sogl {
 		}
 
 		// both shaders compiled, create program and attach shaders
-		shader = new shaderProgram();
+		shader = new ShaderProgram();
 		shader->programID = glCreateProgram();
 		shader->vertexShaderID = vertexSourceID;
 		shader->fragmentShaderID = fragmentSourceID;
@@ -96,7 +96,7 @@ namespace sogl {
 			currentBlockName = new char[nameLength];
 			glGetActiveUniformBlockName(shader->programID, currentBlockIndex, nameLength, NULL, currentBlockName);
 			
-			uniformBufferObject* ubo = nullptr;
+			UniformBuffer* ubo = nullptr;
 			//this ubo has previously been named, bind it to program
 			if (uniformBufferFactory::find(currentBlockName, ubo)) {
 				glUniformBlockBinding(shader->programID, currentBlockIndex, ubo->bindingIndex);
@@ -115,11 +115,49 @@ namespace sogl {
 		return shader;
 	}
 
-	bool shaderFactory::find(const char* alias, shaderProgram*& outShader) {
+	bool ShaderFactory::find(const char* alias, ShaderProgram*& outShader) {
 		return m_loadedShaders.find(alias, outShader);
 	}
 
-	unsigned int shaderFactory::createShaderSource(const char* filePath, const unsigned int sourceType) {
+	const char* ShaderFactory::GetShaderVertexName(const uint32_t vertexID) {
+		uint32_t* ID = nullptr;
+		for (uint32_t i = 0; i < m_vertexShaders.size; i++) {
+			if ((ID = m_vertexShaders.data[i].value) != nullptr && *ID == vertexID) {
+				
+				return m_vertexShaders.data[i].key;
+			}
+		}
+
+		return "";
+	}
+
+	const char* ShaderFactory::GetShaderFragmentName(const uint32_t fragmentID) {
+		uint32_t* ID = nullptr;
+		for (uint32_t i = 0; i < m_fragmentShaders.size; i++) {
+			if ((ID = m_fragmentShaders.data[i].value) != nullptr && *ID == fragmentID) {
+				return m_fragmentShaders.data[i].key;
+			}
+		}
+
+		return "";
+	}
+
+	const char* ShaderFactory::GetShaderName(const ShaderProgram* shader) {
+		char* alias = nullptr;
+		for (uint32_t i = 0; i < m_loadedShaders.size; i++) {
+			if ((alias = m_loadedShaders.data[i].key) == nullptr)
+				continue;
+
+			ShaderProgram* program = m_loadedShaders.data[i].value;
+			if (program == shader) {
+				return alias;
+			}
+		}
+
+		return "";
+	}
+
+	unsigned int ShaderFactory::createShaderSource(const char* filePath, const unsigned int sourceType) {
 		if (sourceType != GL_VERTEX_SHADER && sourceType != GL_FRAGMENT_SHADER) {
 			std::cout <<
 				"[Shader Manager]: Could not create shader from source file!\n" <<
@@ -130,7 +168,7 @@ namespace sogl {
 		unsigned int sourceID = 0;
 		unsigned int* srcPtr = &sourceID;
 
-		if (shaderFactory::findSource(filePath, sourceType, srcPtr)) {
+		if (ShaderFactory::findSource(filePath, sourceType, srcPtr)) {
 			// the specified vertex shader already exists
 			return *srcPtr;
 		}
@@ -194,7 +232,7 @@ namespace sogl {
 		}
 	}
 
-	bool shaderFactory::findSource(const char* alias, const unsigned int sourceType, unsigned int*& outSourceID) {
+	bool ShaderFactory::findSource(const char* alias, const unsigned int sourceType, unsigned int*& outSourceID) {
 		if (sourceType == GL_VERTEX_SHADER) {
 			if (m_vertexShaders.find(alias, outSourceID))
 				return true;
@@ -214,9 +252,9 @@ namespace sogl {
 		return false;
 	}
 
-	void shaderFactory::terminate() {
+	void ShaderFactory::terminate() {
 		for (uint16_t i = 0; i < m_loadedShaders.size; i++) {
-			shaderProgram* shader;
+			ShaderProgram* shader;
 			if ((shader = m_loadedShaders.data[i].value) == nullptr)
 				continue;
 
@@ -246,7 +284,7 @@ namespace sogl {
 		}
 	}
 
-	bool shaderFactory::readShader(const char* filePath, char*& outSource) {
+	bool ShaderFactory::readShader(const char* filePath, char*& outSource) {
 		std::string content = "";
 		std::ifstream fileStream(filePath, std::ios::in);
 

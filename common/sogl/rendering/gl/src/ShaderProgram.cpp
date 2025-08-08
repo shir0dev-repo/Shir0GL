@@ -14,14 +14,14 @@
 #include <sogl/transform/matrix4f.hpp>
 #include <sogl/rendering/color.hpp>
 #include <sogl/rendering/color32.hpp>
-#include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/gl/shaderProgram.hpp>
+#include <sogl/rendering/glUtilities.h>
+#include <sogl/rendering/gl/ShaderProgram.h>
 
 namespace sogl {
 	
-	shaderProgram::shaderProgram() : vertexShaderID(0), fragmentShaderID(0), programID(0) {}
+	ShaderProgram::ShaderProgram() : vertexShaderID(0), fragmentShaderID(0), programID(0) {}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const float& value) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const float& value) const {
 		int location = glGetUniformLocation(programID, uniformName);
 
 		if (location >= 0) {
@@ -32,7 +32,7 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const bool& value) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const bool& value) const {
 		int location = glGetUniformLocation(programID, uniformName);
 
 		if (location >= 0) {
@@ -43,7 +43,7 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const color& color, const bool& includeAlpha) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const color& color, const bool& includeAlpha) const {
 		int location = glGetUniformLocation(programID, uniformName);
 		if (location >= 0) {
 			if (includeAlpha) {
@@ -59,7 +59,7 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const color32& clr32, const bool& includeAlpha) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const color32& clr32, const bool& includeAlpha) const {
 		int location = glGetUniformLocation(programID, uniformName);
 		if (location >= 0) {
 			color clr = (color)clr32;
@@ -76,7 +76,7 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const vec3f& value) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const vec3f& value) const {
 		int location = glGetUniformLocation(programID, uniformName);
 
 		if (location >= 0) {
@@ -88,7 +88,7 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const vec4f& value) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const vec4f& value) const {
 		int location = glGetUniformLocation(programID, uniformName);
 
 		if (location >= 0) {
@@ -99,7 +99,7 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const matrix3f& value, const bool& transposed) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const matrix3f& value, const bool& transposed) const {
 		unsigned int location = glGetUniformLocation(programID, uniformName);
 		if (location >= 0) {
 			glUniformMatrix3fv(location, 1, transposed, value.getPointer());
@@ -109,7 +109,7 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::uploadUniform(const char* uniformName, const matrix4f& value, const bool& transposed) const {
+	void ShaderProgram::uploadUniform(const char* uniformName, const matrix4f& value, const bool& transposed) const {
 		unsigned int location = glGetUniformLocation(programID, uniformName);
 		if (location >= 0) {
 			glUniformMatrix4fv(location, 1, transposed, value.getPointer());
@@ -119,11 +119,11 @@ namespace sogl {
 		}
 	}
 
-	void shaderProgram::use() const {
+	void ShaderProgram::use() const {
 		glUseProgram(programID);
 	}
 
-	void shaderProgram::stop() const {
+	void ShaderProgram::stop() const {
 		glUseProgram(0);
 	}
 }

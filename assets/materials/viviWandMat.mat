@@ -1,0 +1,15 @@
+m viviWandMat
+
+s lit assets/shader/lit.vert assets/shader/lit.frag
+#GL_FLOAT
+u 5126 shininess 1.500000
+#GL_FLOAT_MAT4
+u 35676 u_transformationMatrix
+#SOGL_UNSUPPORTED_TYPE
+u 35678 _MainTex
+#GL_FLOAT
+u 5126 diffuseReflection 0.600000
+#GL_FLOAT
+u 5126 specularReflection 0.500000
+#GL_FLOAT
+u 5126 ambientReflection 0.150000

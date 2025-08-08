@@ -8,8 +8,8 @@
 #include <string>
 #include <cassert>
 
-#include <sogl/rendering/gl/shaderProgram.hpp>
-#include <sogl/rendering/glUtilities.hpp>
+#include <sogl/rendering/gl/ShaderProgram.h>
+#include <sogl/rendering/glUtilities.h>
 
 namespace sogl {
 	static const char* readShader(const char* filePath) {

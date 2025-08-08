@@ -21,10 +21,7 @@
     <ClCompile Include="common\sogl\rendering\src\color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\src\mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="common\sogl\rendering\gl\src\vertexArrayObject.cpp">
+    <ClCompile Include="common\sogl\rendering\gl\src\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common\sogl\transform\src\vectors.cpp">
@@ -36,13 +33,13 @@
     <ClCompile Include="common\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\src\shaderProgram.cpp">
+    <ClCompile Include="common\sogl\rendering\gl\src\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common\sogl\rendering\src\renderable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\src\texture.cpp">
+    <ClCompile Include="common\sogl\rendering\src\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common\sogl\rendering\src\glUtilities.cpp">
@@ -60,34 +57,64 @@
     <ClCompile Include="common\sogl\rendering\src\light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\src\material.cpp">
+    <ClCompile Include="common\sogl\rendering\src\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\gl\src\uniformBufferObject.cpp">
+    <ClCompile Include="common\sogl\rendering\gl\src\UniformBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\factories\src\shaderFactory.cpp">
+    <ClCompile Include="common\sogl\rendering\factories\src\ShaderFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common\sogl\rendering\factories\src\uniformBufferFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\factories\src\lightFactory.cpp">
+    <ClCompile Include="common\sogl\rendering\factories\src\LightFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\factories\src\materialFactory.cpp">
+    <ClCompile Include="common\sogl\rendering\factories\src\MaterialFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\factories\src\textureFactory.cpp">
+    <ClCompile Include="common\sogl\rendering\factories\src\TextureFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common\sogl\debug\src\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\rendering\gl\src\mappedBuffer.cpp">
+    <ClCompile Include="common\sogl\rendering\gl\src\GLMappedBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common\sogl\noise\src\fastNoise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\rendering\gl\src\GLBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\rendering\gl\src\GLUniform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\rendering\gl\mesh\src\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\rendering\gl\mesh\src\InstancedMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\rendering\gl\mesh\MeshUtils.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\rendering\gl\src\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\structure\Hasher.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\structure\src\Hasher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\world\data\src\chunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\world\data\src\chunkMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,13 +128,13 @@
     <ClInclude Include="common\sogl\rendering\color32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\mesh.hpp">
+    <ClInclude Include="common\sogl\rendering\gl\mesh\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\rendering\renderable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\gl\vertexArrayObject.hpp">
+    <ClInclude Include="common\sogl\rendering\gl\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\transform\matrix3f.hpp">
@@ -143,7 +170,7 @@
     <ClInclude Include="common\GLFW\glfw3native.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\gl\shaderProgram.hpp">
+    <ClInclude Include="common\sogl\rendering\gl\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\GLEW\glew.h">
@@ -161,43 +188,37 @@
     <ClInclude Include="ext\GLFW\glfw3native.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\texture.hpp">
+    <ClInclude Include="common\sogl\rendering\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\glUtilities.hpp">
+    <ClInclude Include="common\sogl\rendering\glUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\stbi\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\transform\matrixNf.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="common\sogl\rendering\light.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\material.hpp">
+    <ClInclude Include="common\sogl\rendering\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\gl\uniformBufferObject.hpp">
+    <ClInclude Include="common\sogl\rendering\gl\UniformBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\factories\shaderFactory.hpp">
+    <ClInclude Include="common\sogl\rendering\factories\ShaderFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\rendering\factories\uniformBufferFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\transform\quatd.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="common\sogl\rendering\factories\lightFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\factories\materialFactory.hpp">
+    <ClInclude Include="common\sogl\rendering\factories\MaterialFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\factories\textureFactory.hpp">
+    <ClInclude Include="common\sogl\rendering\factories\TextureFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Schoolwork\GAME2001\GAME2001_A2_MitchellJames\linkedList.h">
@@ -209,7 +230,7 @@
     <ClInclude Include="common\sogl\debug\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="common\sogl\rendering\gl\mappedBuffer.h">
+    <ClInclude Include="common\sogl\rendering\gl\GLMappedBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\structure\hashTable.hpp">
@@ -219,9 +240,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\structure\octree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="common\sogl\structure\pair.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\structure\priorityQueue.h">
@@ -240,6 +258,48 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\sogl\structure\bitSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\gl\GLBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\factories\MeshFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\gl\GLUniform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\bitmanip.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\gl\mesh\InstancedMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\Dictionary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\Array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\factories\FactoryUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\structure\pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\gl\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\rendering\factories\ModelFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\world\data\chunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\world\data\chunkMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sogl\world\data\FaceDirection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

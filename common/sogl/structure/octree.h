@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 #include <sogl/transform/vec3i.hpp>
-#include <sogl/structure/pair.hpp>
+#include <sogl/structure/pair.h>
 
 #if DEBUG
 #include <GLEW/glew.h>
@@ -38,7 +38,7 @@ namespace sogl {
 				if (objects == nullptr) {
 					objects = new pair<T*, vec3f>* [maxObjects];
 					for (int i = 0; i < maxObjects; i++) {
-						objects[i] = new pair<T*, vec3f>(nullptr, vec3f());
+						objects[i] = new pair<T*, vec3f>{ nullptr, vec3f() };
 					}
 
 					objects[objectCount++] = new pair<T*, vec3f>(obj, position);

@@ -32,6 +32,11 @@ namespace sogl {
 			uint64_t keyLength;
 
 			inline hashTableItem() : key(nullptr), keyEnd(nullptr), value(nullptr), isManaged(true), keyLength(0) {}
+			inline hashTableItem(const char* key, const char* keyEnd, const T* value, uint64_t keyLength, bool managed = false)
+				: key(key), keyEnd(keyEnd), keyLength(keyLength), isManaged(managed) {
+				this->value = value;
+			}
+
 			inline hashTableItem(hashTableItem&) = delete;
 			inline ~hashTableItem() {
 				if (key) {

@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <sogl/structure/octree.h>
 
+struct FastNoise;
+
 namespace sogl {
 	enum voxelType : uint8_t {
 		AIR = 0,
@@ -17,30 +19,32 @@ namespace sogl {
 		static color getColorForVoxel(const voxel* v);
 	} voxel;
 
-	typedef struct chunk {
+	typedef struct Chunk {
 	private:
-		static struct shaderProgram* chunkShader;
-		static struct mesh* cubeMesh;
-		static struct FastNoise* noiseData;
+		static struct ShaderProgram* chunkShader;
+		static struct Mesh* cubeMesh;
+		static FastNoise* noiseData;
 	public:
-		static const uint16_t CHUNK_SIZE_X = 16;
-		static const uint16_t CHUNK_SIZE_Z = 16;
+		static const uint64_t CHUNK_SIZE = 64;
+		static const uint16_t CHUNK_SIZE_X = 64;
+		static const uint16_t CHUNK_SIZE_Z = 64;
 		static const uint16_t CHUNK_SIZE_Y = 64;
 
 		static struct color voxelColors[5];
 	private:
 		vec3f chunkCoords;
-		struct vertexArrayObject* vao;
+		struct VertexArray* vao;
 		uint32_t voxelBufferID;
-		struct mappedBuffer* voxelBuffer;
+		struct GLMappedBuffer* voxelBuffer;
 		voxel* voxels;
 		static bool indexInRange(const uint16_t index);
 	public:
 		static void initialize();
-		chunk(const vec3f& chunkCoords);
+		Chunk(const vec3f& chunkCoords);
 		void draw();
 
 		voxel* const getVoxel(const uint16_t x, const uint16_t y, const uint16_t z);
+		bool getVoxelNeighbours(const uint16_t x, const uint16_t y, const uint16_t z, voxel**& outNeighbours);
 		void setVoxel(voxel* voxel, const voxelType type);
 	};
 }

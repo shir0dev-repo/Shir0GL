@@ -5,14 +5,14 @@
 
 #include <iostream>
 
-#include <sogl/rendering/texture.hpp>
+#include <sogl/rendering/Texture.h>
 
 namespace sogl {
-	texture::texture() {
+	Texture::Texture() {
 		
 	}
 
-	texture::texture(const char* filePath) {
+	Texture::Texture(const char* filePath) {
 		glGenTextures(1, &this->ID);
 		glBindTexture(GL_TEXTURE_2D, this->ID);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -33,16 +33,16 @@ namespace sogl {
 		stbi_image_free(data);
 	}
 
-	void texture::bind() const {
+	void Texture::bind() const {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this->ID);
 	}
 
-	void texture::unbind() const {
+	void Texture::unbind() const {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	texture::~texture() {
+	Texture::~Texture() {
 		glDeleteTextures(1, &this->ID);
 	}
 }

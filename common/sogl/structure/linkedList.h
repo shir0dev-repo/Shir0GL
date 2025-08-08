@@ -9,6 +9,13 @@ class linkedList {
 	struct node {
 		T item;
 		node* next;
+		inline node() {
+			next = nullptr;
+		}
+		inline node(T item, node* next) {
+			this->item = item;
+			this->next = next;
+		}
 	};
 
 	int m_count;
@@ -34,7 +41,7 @@ public:
 	}
 
 	void add(T item) {
-		node* newNode = new node();
+		node* newNode = new node(item, nullptr);
 		newNode->item = item;
 		newNode->next = nullptr;
 

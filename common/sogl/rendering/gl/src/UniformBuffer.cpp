@@ -8,13 +8,13 @@
 #include <sogl/transform/vec4f.hpp>
 #include <sogl/transform/matrix3f.hpp>
 #include <sogl/transform/matrix4f.hpp>
-#include <sogl/rendering/glUtilities.hpp>
-#include <sogl/rendering/gl/uniformBufferObject.hpp>
+#include <sogl/rendering/glUtilities.h>
+#include <sogl/rendering/gl/UniformBuffer.h>
 
 namespace sogl {
-	uniformBufferObject::uniformBufferObject() : name(""), ID(0), bufferSize(0), bindingIndex(0) {}
+	UniformBuffer::UniformBuffer() : name(""), ID(0), bufferSize(0), bindingIndex(0) {}
 
-	bool uniformBufferObject::bufferData(const void* data, const uint64_t dataSize, const uint64_t offset) {
+	bool UniformBuffer::bufferData(const void* data, const uint64_t dataSize, const uint64_t offset) {
 		if (dataSize == 0) {
 			std::cout <<
 				"[GLERROR]: Failed to buffer data to " << name << '\n' <<

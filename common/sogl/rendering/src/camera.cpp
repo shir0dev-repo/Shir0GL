@@ -7,7 +7,7 @@
 #include <iomanip>
 
 #include <sogl/rendering/camera.hpp>
-#include <sogl/rendering/glUtilities.hpp>
+#include <sogl/rendering/glUtilities.h>
 #include <sogl/mathutil.hpp>
 #include <sogl/rendering/factories/uniformBufferFactory.hpp>
 

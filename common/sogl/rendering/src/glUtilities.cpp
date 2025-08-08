@@ -8,7 +8,7 @@
 #include <string>
 
 // SOGL:
-#include <sogl/rendering/glUtilities.hpp>
+#include <sogl/rendering/glUtilities.h>
 #include <sogl/rendering/camera.hpp>
 #include <sogl/transform/vec3f.hpp>
 #include <sogl/debug/debug.h>
@@ -116,7 +116,7 @@ namespace sogl {
 		glfwMaximizeWindow(CurrentInstance.window);
 		
 		debug::setup();
-		//chunk::initialize();
+		Chunk::initialize();
 		return CurrentInstance.window;
 	}
 

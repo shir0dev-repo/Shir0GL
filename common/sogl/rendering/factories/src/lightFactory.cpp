@@ -136,7 +136,7 @@ namespace sogl {
 	}
 
 	void lightFactory::tryInsertIntoBuffer(light*& light) {
-		static uniformBufferObject* lightBuffer = nullptr;
+		static UniformBuffer* lightBuffer = nullptr;
 		static bool foundBuffer = false;
 		
 		if (lightBuffer == nullptr) {
@@ -176,7 +176,7 @@ namespace sogl {
 	void lightFactory::updateLightBuffer(light* l) {
 		if (l->type == lightType::NONE) return;
 		
-		uniformBufferObject* lightBuffer = nullptr;
+		UniformBuffer* lightBuffer = nullptr;
 		if (!uniformBufferFactory::find("Lights", lightBuffer)) {
 			std::cout << "falfdkawlda\n";
 		}

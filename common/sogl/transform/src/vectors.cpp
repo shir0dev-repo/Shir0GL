@@ -1,8 +1,6 @@
 #include <sogl/transform/vec3f.hpp>
 #include <sogl/transform/quat.hpp>
-#include <sogl/transform/quatd.hpp>
 namespace sogl {
-	quatd quatd::IDENTITY = quatd();
 	quat quat::IDENTITY = quat();
 
 	vec3f vec3f::ZERO = vec3f(0, 0, 0);

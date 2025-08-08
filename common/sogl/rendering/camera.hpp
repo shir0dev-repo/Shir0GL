@@ -5,7 +5,7 @@
 
 namespace sogl {
 	struct camera;
-	struct uniformBufferObject;
+	struct UniformBuffer;
 
 	typedef void (*CameraUpdateFunc)(camera* instance, const vec3f& translation, const vec3f& rotation, const float& aspect);
 	static void defaultCameraUpdateFunc(camera* instance, const vec3f& translation, const vec3f& rotation, const float& aspect);
@@ -32,7 +32,7 @@ namespace sogl {
 	
 	private:
 		CameraUpdateFunc updateFunc = defaultCameraUpdateFunc;
-		uniformBufferObject* cameraBufferBlock;
+		UniformBuffer* cameraBufferBlock;
 	public:
 		camera();
 
