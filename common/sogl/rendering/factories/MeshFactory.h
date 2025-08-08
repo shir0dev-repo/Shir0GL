@@ -3,9 +3,9 @@
 #include <stdint.h>
 #include <vector>
 
+#include <sogl/structure/Dictionary.h>
 #include <sogl/structure/hashTable.hpp>
 #include <sogl/structure/linkedList.h>
-#include <sogl/structure/Dictionary.h>
 #include <sogl/structure/pair.h>
 
 #include <sogl/rendering/gl/mesh/Mesh.h>
@@ -14,7 +14,7 @@
 namespace sogl {
 	class MeshFactory {
 		static hashTable<Mesh> LoadedMeshes;
-		static Dictionary<const Mesh*, linkedList<InstancedMesh*>*> MeshInstances;
+		static Dictionary<const struct Mesh*, linkedList<InstancedMesh*>*> MeshInstances;
 		static Dictionary<const struct Mesh*, const struct VertexArray> MeshBufferDictionary;
 
 		static void LoadToBuffer(const struct Mesh* meshAsset, const char* alias);
