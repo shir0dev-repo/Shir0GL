@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdint.h>
 #include <sogl/structure/Hasher.h>
 
 namespace sogl {

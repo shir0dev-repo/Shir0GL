@@ -108,13 +108,13 @@
     <ClCompile Include="common\sogl\structure\Hasher.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="common\sogl\structure\src\Hasher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="common\sogl\world\data\src\chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="common\sogl\world\data\src\chunkMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sogl\structure\src\Hasher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

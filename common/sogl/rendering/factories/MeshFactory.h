@@ -14,10 +14,10 @@
 namespace sogl {
 	class MeshFactory {
 		static hashTable<Mesh> LoadedMeshes;
-		static Dictionary<const struct Mesh*, linkedList<InstancedMesh*>*> MeshInstances;
-		static Dictionary<const struct Mesh*, const struct VertexArray> MeshBufferDictionary;
+		static Dictionary<const Mesh*, linkedList<InstancedMesh*>*> MeshInstances;
+		static Dictionary<const Mesh*, const struct VertexArray> MeshBufferDictionary;
 
-		static void LoadToBuffer(const struct Mesh* meshAsset, const char* alias);
+		static void LoadToBuffer(const Mesh* meshAsset, const char* alias);
 	public:
 		static const Mesh* CreateNew( const char* filePath, const char* alias = "" );
 		static const Mesh* CreateNew( const float* vertices, const float* uvs, const float* normals, const uint64_t* indices, const char* alias = "" );
