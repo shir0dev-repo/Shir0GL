@@ -1,0 +1,5 @@
+m texCoordMat
+
+s texCoordColor assets/shader/default.vert assets/shader/tcoord_color.frag
+#GL_FLOAT_MAT4
+u 35676 u_transformationMatrix

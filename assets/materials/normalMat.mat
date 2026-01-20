@@ -1,0 +1,5 @@
+m normalMat
+
+s normalColor assets/shader/default.vert assets/shader/normal_color.frag
+#GL_FLOAT_MAT4
+u 35676 u_transformationMatrix
