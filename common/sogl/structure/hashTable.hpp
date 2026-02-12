@@ -3,7 +3,7 @@
 #include <cassert>
 #include <string>
 
-#include <sogl/mathutil.hpp>
+#include <shml/mathutil.hpp>
 
 #define CAPACITY 50000
 

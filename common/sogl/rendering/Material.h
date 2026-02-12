@@ -2,6 +2,7 @@
 
 #include <sogl/structure/hashTable.hpp>
 #include <sogl/structure/linkedList.h>
+#include <glfw/glfw3.h>
 
 namespace sogl {
 	struct Texture;

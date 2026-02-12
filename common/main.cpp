@@ -23,6 +23,9 @@
 
 #include <sogl/world/data/chunk.h>
 #include <sogl/world/data/chunkMesh.h>
+
+#include <Game/PlayerAircraft.h>
+
 using namespace sogl;
 
 const int W_WIDTH = 800;
@@ -41,19 +44,21 @@ int main() {
 	Texture* defaultTexture = TextureFactory::getDefaultTexture();
 	Texture* viviTexture = TextureFactory::loadTexture("assets/tex/vivi-col.png");
 	Texture* viviWandTexture = TextureFactory::loadTexture("assets/tex/vivi-wand-col.png");
-	
+	Texture* shipTexture = TextureFactory::loadTexture("assets/tex/ship-tex.png");
+
 	ShaderProgram* litShader = ShaderFactory::createNew("assets/shader/lit.vert", "assets/shader/lit.frag", "lit");
 	//shaderProgram* defaultShader = shaderFactory::createNew("assets/shader/default.vert", "assets/shader/default.frag", "default");
-	//shaderProgram* normalColorShader = shaderFactory::createNew("assets/shader/default.vert", "assets/shader/normal_color.frag", "normalColor");
+	ShaderProgram* normalColorShader = ShaderFactory::createNew("assets/shader/default.vert", "assets/shader/normal_color.frag", "normalColor");
 	//shaderProgram* texCoordColorShader = shaderFactory::createNew("assets/shader/default.vert", "assets/shader/tcoord_color.frag", "texCoordColor");
 	ShaderProgram* texturedShader = ShaderFactory::createNew("assets/shader/default.vert", "assets/shader/texture.frag", "textured");
 	ShaderProgram* wireFrameShader = ShaderFactory::createNew("assets/shader/wireframe.vert", "assets/shader/wireframe.frag", "wireframe");
 	//material* defaultMaterial = createMaterial(defaultShader, "defaultMat");
-	//material* normalMaterial = createMaterial(normalColorShader, "normalMat");
+	Material* normalMaterial = MaterialFactory::CreateNew(normalColorShader, "normalMat");
 	Material* litMaterial = MaterialFactory::CreateNew(litShader, "litMat");
 	Material* viviMaterial = MaterialFactory::CreateNew(litShader, "viviMat");
 	Material* viviWandMaterial = MaterialFactory::CreateNew(litShader, "viviWandMat");
 	Material* wireframeMaterial = MaterialFactory::CreateNew(wireFrameShader, "wireframeMat");
+	Material* shipMaterial = MaterialFactory::CreateNew(texturedShader, "shipMat");
 
 	litMaterial->addTexture(defaultTexture);
 	viviMaterial->addTexture(viviTexture);
@@ -120,11 +125,14 @@ int main() {
 	const Mesh* vivi = MeshFactory::CreateNew("assets/mesh/vivi.obj", "vivi");
 	const Mesh* viviWand = MeshFactory::CreateNew("assets/mesh/vivi-wand.obj", "viviWand");
 	const Mesh* plane = MeshFactory::CreateNew("assets/mesh/plane.obj", "plane");
+	const Mesh* ship = MeshFactory::CreateNew("assets/mesh/ship.obj", "ship");
+	PlayerAircraft player(head, normalMaterial);
 
 	renderable viviRenderable(*vivi, viviMaterial);
 	viviRenderable.transform.setPosition(vec3f(0, -1, -5));
 	renderable viviWandRenderable(*viviWand, viviWandMaterial);
 	viviWandRenderable.transform.setPosition(vec3f(0, -1, -5));
+	renderable shipRenderable(*ship, shipMaterial);
 
 	renderable planeRenderable(*plane, litMaterial);
 	planeRenderable.transform.setPosition(vec3f(0, -1, 0));
@@ -179,6 +187,8 @@ int main() {
 		viviRenderable.render();
 		viviWandRenderable.render();
 		planeRenderable.render();
+		shipRenderable.render();
+		player.Update(deltaTime);
 		//ch.draw();
 		//tree.drawOutline();
 		

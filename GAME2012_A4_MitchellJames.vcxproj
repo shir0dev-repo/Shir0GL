@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="common\Game\src\Entity.cpp" />
+    <ClCompile Include="common\Game\src\PlayerAircraft.cpp" />
     <ClCompile Include="common\main.cpp" />
     <ClCompile Include="common\sogl\debug\src\debug.cpp" />
     <ClCompile Include="common\sogl\noise\src\fastNoise.cpp" />
@@ -56,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Schoolwork\GAME2001\GAME2001_A2_MitchellJames\linkedList.h" />
+    <ClInclude Include="common\Game\Entity.h" />
+    <ClInclude Include="common\Game\PlayerAircraft.h" />
     <ClInclude Include="common\GLEW\glew.h" />
     <ClInclude Include="common\GLEW\glxew.h" />
     <ClInclude Include="common\GLEW\wglew.h" />
